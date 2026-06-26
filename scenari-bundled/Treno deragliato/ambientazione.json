@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "nome": "Treno deragliato",
   "creataIl": "2026-05-29T09:47:30.172Z",
-  "modificataIl": "2026-06-26T08:51:41.348Z",
+  "modificataIl": "2026-06-26T10:04:30.542Z",
   "mappaPath": "mappa-0ba34270-b261-4cec-81bf-f606e25e1d22.png",
   "personaggi": [
     {
@@ -164,9 +164,9 @@
       "nome": "Secchio",
       "imgPath": "oggetti/86f29c6f-4be7-48a0-a940-847e982b5ac4.png",
       "crop": {
-        "zoom": 1.4144271570014144,
-        "offsetX": -0.004230205829326924,
-        "offsetY": 0.03913128192608173
+        "zoom": 1.555869872701556,
+        "offsetX": 0.005448091947115383,
+        "offsetY": 0.02755103478064904
       }
     },
     {
@@ -174,9 +174,9 @@
       "nome": "Ricevitore",
       "imgPath": "oggetti/f6f75f56-d7da-4940-be5c-dbd864519ce4.png",
       "crop": {
-        "zoom": 1.35,
-        "offsetX": 0,
-        "offsetY": 0
+        "zoom": 1.4850000000000003,
+        "offsetX": -0.0007089468149038461,
+        "offsetY": 0.011651259202223558
       }
     },
     {
@@ -184,9 +184,9 @@
       "nome": "Lampada",
       "imgPath": "oggetti/393ef091-ae48-4a77-a5d3-1065d9a8e050.png",
       "crop": {
-        "zoom": 1.2705000000000004,
-        "offsetX": 0.0024892953725961543,
-        "offsetY": 0.06354722243088942
+        "zoom": 1.3975500000000005,
+        "offsetX": -0.002903395432692307,
+        "offsetY": 0.10637371356670673
       }
     },
     {
@@ -210,13 +210,14 @@
       }
     },
     {
-      "id": "ccc5ddcf-39e8-4ea8-bc74-bd39afed22a4",
-      "nome": "Acqua",
-      "imgPath": "oggetti/ccc5ddcf-39e8-4ea8-bc74-bd39afed22a4.png",
+      "id": "8e47e10f-3be0-4f66-aa94-aefeb9238735",
+      "nome": "Pala carbone",
+      "imgPath": "oggetti/8e47e10f-3be0-4f66-aa94-aefeb9238735.png",
+      "thumbPath": "oggetti/8e47e10f-3be0-4f66-aa94-aefeb9238735_thumb.png",
       "crop": {
-        "zoom": 1.272984441301273,
-        "offsetX": -0.018511493389423074,
-        "offsetY": 0.016994652381310094
+        "zoom": 1.5534422465116513,
+        "offsetX": 0.019034517728365386,
+        "offsetY": -0.16998877892127404
       }
     }
   ],
