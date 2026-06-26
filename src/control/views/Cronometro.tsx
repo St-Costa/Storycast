@@ -39,7 +39,7 @@ export default function Cronometro() {
         <span className={styles.etichetta}>Tempo trascorso</span>
         <span className={styles.cifre}>
           {formatElapsed(ms)}
-          <span className={styles.pallino} aria-hidden="true" />
+          {startedAt !== null && <span className={styles.pallino} aria-hidden="true" />}
         </span>
       </div>
       {avvisoOre !== null &&
