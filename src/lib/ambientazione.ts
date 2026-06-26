@@ -31,6 +31,10 @@ export interface Oggetto {
   id: string;
   nome: string;
   imgPath: string;
+  // Miniatura leggera (es. 128px) usata nella griglia di assegnazione, così non
+  // serve decodificare l'immagine originale (spesso da diversi MB). Opzionale per
+  // retro-compatibilità: gli oggetti vecchi vengono ri-generati al caricamento.
+  thumbPath?: string;
   crop: Crop;
 }
 
@@ -207,6 +211,7 @@ function validaOggetto(raw: unknown, idx: number): Oggetto {
     id: raw.id,
     nome: raw.nome,
     imgPath: raw.imgPath,
+    thumbPath: typeof raw.thumbPath === "string" && raw.thumbPath !== "" ? raw.thumbPath : undefined,
     crop: validaCrop(raw.crop, ctx),
   };
 }

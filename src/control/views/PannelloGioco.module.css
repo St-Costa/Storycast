@@ -72,18 +72,16 @@
 }
 
 .popover {
-  position: absolute;
-  right: 0;
-  top: calc(100% + 0.4rem);
-  z-index: 80;
+  position: fixed;
+  z-index: 1000;
   background: #fff;
   color: #1d1d1f;
   border: 1px solid rgba(0, 0, 0, 0.18);
   border-radius: 8px;
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.2);
-  padding: 0.35rem;
-  min-width: 240px;
-  max-height: 320px;
+  padding: 0;
+  width: 251px;
+  max-height: 360px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -112,6 +110,21 @@
   font: inherit;
   font-size: 0.9rem;
   width: 100%;
+}
+
+.popoverGriglia {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+}
+
+.popoverItemGriglia {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 0;
+  width: auto;
 }
 
 .popoverItem:hover {

@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "nome": "Treno deragliato",
   "creataIl": "2026-05-29T09:47:30.172Z",
-  "modificataIl": "2026-06-26T08:24:40.333Z",
+  "modificataIl": "2026-06-26T08:51:41.348Z",
   "mappaPath": "mappa-0ba34270-b261-4cec-81bf-f606e25e1d22.png",
   "personaggi": [
     {
@@ -16,12 +16,12 @@
         "offsetY": 1.633027766301082
       },
       "posizione": {
-        "x": 0.6092292902966686,
-        "y": 0.4965929140688945
+        "x": 0.6459285120258098,
+        "y": 0.48764357376993167
       },
       "posizioneIniziale": {
-        "x": 0.6092292902966686,
-        "y": 0.4965929140688945
+        "x": 0.6459285120258098,
+        "y": 0.48764357376993167
       },
       "oggettoId": null,
       "oggettoInizialeId": null,
@@ -230,6 +230,7 @@
         "y": 0.45922295016990866
       },
       "dimensione": 0.04312441865879542,
+      "rotazione": 0,
       "colore": null
     },
     {
@@ -241,6 +242,7 @@
         "y": 0.6203078323987212
       },
       "dimensione": 0.034140195147532165,
+      "rotazione": 0,
       "colore": null
     },
     {
@@ -252,6 +254,7 @@
         "y": 0.608293331171497
       },
       "dimensione": 0.02984974198750496,
+      "rotazione": 0,
       "colore": null
     },
     {
@@ -263,6 +266,7 @@
         "y": 0.5658944516141712
       },
       "dimensione": 0.03934381466480538,
+      "rotazione": 0,
       "colore": null
     },
     {
@@ -274,6 +278,7 @@
         "y": 0.5862678536624636
       },
       "dimensione": 0.02994913258335067,
+      "rotazione": 0,
       "colore": null
     },
     {
@@ -285,6 +290,7 @@
         "y": 0.5303801543115721
       },
       "dimensione": 0.02974912990955399,
+      "rotazione": 0,
       "colore": null
     },
     {
@@ -296,6 +302,31 @@
         "y": 0.5405350537675413
       },
       "dimensione": 0.024427384902821318,
+      "rotazione": 0,
+      "colore": null
+    },
+    {
+      "id": "13e9b446-187e-4ae6-81d5-ed40c8cbf24e",
+      "tipo": "simbolo",
+      "contenuto": "🐍",
+      "posizione": {
+        "x": 0.5749322543280964,
+        "y": 0.5231781796573114
+      },
+      "dimensione": 0.028621636281725454,
+      "rotazione": 0,
+      "colore": null
+    },
+    {
+      "id": "e15f403e-abac-4858-a7e5-193445d03433",
+      "tipo": "simbolo",
+      "contenuto": "💨",
+      "posizione": {
+        "x": 0.8282484496548962,
+        "y": 0.7012000748889906
+      },
+      "dimensione": 0.04034320233308525,
+      "rotazione": 113.22176216202382,
       "colore": null
     }
   ],

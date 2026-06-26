@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAmbientazioneStore } from "../../state/ambientazioneStore";
 import { risolviAsset } from "../../lib/storage";
 import { oggettoDi } from "../../lib/ambientazione";
@@ -10,10 +10,45 @@ export default function PannelloGioco() {
   const current = useAmbientazioneStore((s) => s.current);
   const folderPath = useAmbientazioneStore((s) => s.folderPath);
   const assegnaOggetto = useAmbientazioneStore((s) => s.assegnaOggettoAPersonaggio);
+  const assicuraMiniature = useAmbientazioneStore((s) => s.assicuraMiniatureOggetti);
 
   const [popoverPer, setPopoverPer] = useState<string | null>(null);
+  const [popoverPos, setPopoverPos] = useState<{ left: number; top: number } | null>(null);
+
+  // Genera le miniature mancanti (oggetti vecchi/importati) e precarica quelle
+  // esistenti, così la finestrella di assegnazione appare subito.
+  useEffect(() => {
+    if (!current || !folderPath) return;
+    void assicuraMiniature();
+    for (const o of current.oggetti) {
+      if (!o.thumbPath) continue;
+      const img = new Image();
+      img.src = risolviAsset(folderPath, o.thumbPath);
+    }
+  }, [current, folderPath, assicuraMiniature]);
 
   if (!current || !folderPath) return null;
+
+  function apriPopover(p: string, e: React.MouseEvent<HTMLButtonElement>) {
+    if (popoverPer === p) {
+      setPopoverPer(null);
+      return;
+    }
+    const r = e.currentTarget.getBoundingClientRect();
+    // Stima l'altezza del popover (righe da 83px, 3 per riga + eventuale riga
+    // "Rimuovi") per non farlo uscire dal bordo inferiore: se sotto non c'è
+    // spazio, lo apre verso l'alto e comunque lo tiene dentro la viewport.
+    const righe = Math.ceil(oggetti.length / 3);
+    const haRimuovi = current!.personaggi.find((x) => x.id === p)?.oggettoId != null;
+    const stimaH = righe * 83 + (haRimuovi ? 44 : 0) + 8;
+    const margine = 8;
+    let top = r.bottom + 6;
+    if (top + stimaH > window.innerHeight - margine) {
+      top = Math.max(margine, r.top - 6 - stimaH);
+    }
+    setPopoverPos({ left: r.left, top });
+    setPopoverPer(p);
+  }
 
   const oggetti = current.oggetti;
 
@@ -43,7 +78,7 @@ export default function PannelloGioco() {
               <button
                 type="button"
                 className={`${styles.slotOggetto} ${oggetto ? "" : styles.slotVuoto}`}
-                onClick={() => setPopoverPer(popoverAperto ? null : p.id)}
+                onClick={(e) => apriPopover(p.id, e)}
                 title={oggetto ? `${oggetto.nome} — clic per cambiare` : "Assegna oggetto"}
               >
                 {oggetto ? (
@@ -59,7 +94,11 @@ export default function PannelloGioco() {
                 )}
               </button>
               {popoverAperto && (
-                <div className={styles.popover} onClick={(e) => e.stopPropagation()}>
+                <div
+                  className={styles.popover}
+                  style={popoverPos ? { left: popoverPos.left, top: popoverPos.top } : undefined}
+                  onClick={(e) => e.stopPropagation()}
+                >
                   {oggetti.length === 0 ? (
                     <p className={styles.popoverVuoto}>Nessun oggetto disponibile.</p>
                   ) : (
@@ -77,6 +116,7 @@ export default function PannelloGioco() {
                           <span className={styles.popoverNome}>Rimuovi oggetto</span>
                         </button>
                       )}
+                      <div className={styles.popoverGriglia}>
                       {oggetti.map((o) => {
                         const assegnatoA = current!.personaggi.find(
                           (x) => x.id !== p.id && x.oggettoId === o.id,
@@ -86,27 +126,20 @@ export default function PannelloGioco() {
                           <button
                             key={o.id}
                             type="button"
-                            className={`${styles.popoverItem} ${scelto ? styles.popoverItemScelto : ""}`}
+                            className={`${styles.popoverItem} ${styles.popoverItemGriglia} ${scelto ? styles.popoverItemScelto : ""}`}
                             onClick={() => handleAssegna(p.id, o.id)}
                             title={assegnatoA ? `Attualmente di ${assegnatoA.nome}` : o.nome}
                           >
                             <Quadratino
-                              src={risolviAsset(folderPath, o.imgPath)}
+                              src={risolviAsset(folderPath, o.thumbPath ?? o.imgPath)}
                               crop={o.crop}
-                              dimensione={32}
+                              dimensione={83}
                               alt={o.nome}
                             />
-                            <span className={styles.popoverNome}>
-                              {o.nome}
-                              {assegnatoA && (
-                                <span className={styles.popoverAssegnato}>
-                                  (di {assegnatoA.nome})
-                                </span>
-                              )}
-                            </span>
                           </button>
                         );
                       })}
+                      </div>
                     </>
                   )}
                 </div>

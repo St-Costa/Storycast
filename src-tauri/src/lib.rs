@@ -9,6 +9,23 @@ use std::thread;
 use tauri::{AppHandle, Manager};
 use tauri_plugin_fs::FsExt;
 
+// ─────────────────────── Miniature oggetti (lato Rust) ──────────────────────
+// Le immagini degli oggetti pesano spesso diversi MB: ridimensionarle nella
+// WebView (canvas) era lento e fragile. Qui decodifichiamo e ridimensioniamo
+// con la crate `image`, salvando un PNG piccolo. `src` e `dest` sono path
+// assoluti; ritorna errore come stringa (gestito dal front-end con fallback).
+const THUMB_MAX: u32 = 128;
+
+#[tauri::command]
+fn genera_miniatura(src: String, dest: String) -> Result<(), String> {
+    let img = image::open(&src).map_err(|e| format!("apertura {src}: {e}"))?;
+    let thumb = img.thumbnail(THUMB_MAX, THUMB_MAX);
+    thumb
+        .save_with_format(&dest, image::ImageFormat::Png)
+        .map_err(|e| format!("salvataggio {dest}: {e}"))?;
+    Ok(())
+}
+
 // ───────────────────────── Audio nativo (tick ruota) ────────────────────────
 // L'uscita audio del webview (WebKitGTK) ha latenza alta e variabile: i tick
 // della ruota risultavano sempre fuori sync. Qui li suoniamo dal backend con
@@ -909,6 +926,7 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             allow_ambientazione_folder,
+            genera_miniatura,
             cartella_repo_scenari,
             lista_scenari_factory_disponibili,
             installa_scenari_factory,

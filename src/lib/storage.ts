@@ -129,6 +129,27 @@ export function risolviAsset(folderPath: string, relativePath: string): string {
   return convertFileSrc(joinPath(folderPath, relativePath));
 }
 
+// Genera una miniatura PNG dell'immagine relativa e la salva accanto come
+// "<base>_thumb.png". Ritorna il path relativo della miniatura. Il
+// ridimensionamento avviene nel core Rust (crate `image`): le immagini originali
+// pesano spesso vari MB e decodificarle nella WebView a ogni apertura del
+// popover causava lag. Usata per la griglia di assegnazione oggetti.
+export async function generaMiniatura(
+  folderPath: string,
+  imgRelativePath: string,
+): Promise<string> {
+  const dot = imgRelativePath.lastIndexOf(".");
+  const base = dot === -1 ? imgRelativePath : imgRelativePath.slice(0, dot);
+  const thumbRelativo = `${base}_thumb.png`;
+  await wrapIO("generazione miniatura", () =>
+    invoke("genera_miniatura", {
+      src: joinPath(folderPath, imgRelativePath),
+      dest: joinPath(folderPath, thumbRelativo),
+    }),
+  );
+  return thumbRelativo;
+}
+
 const ESTENSIONI_AUDIO = new Set(["mp3", "wav", "ogg", "m4a", "aac", "flac"]);
 
 export async function copiaAudioInCartella(

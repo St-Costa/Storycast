@@ -18,6 +18,15 @@ tauri-plugin-fs = "2"
 tauri-plugin-dialog = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+# Generazione miniature oggetti lato Rust: le immagini originali pesano vari MB
+# e decodificarle/ridimensionarle nella WebView causava lag (e canvas "tainted").
+image = { version = "0.25", default-features = false, features = [
+  "png",
+  "jpeg",
+  "webp",
+  "gif",
+  "bmp",
+] }
 # Audio nativo per i tick della ruota: l'audio del webview (WebKitGTK) ha
 # latenza alta/variabile, quindi i tick passano dal backend (bassa latenza
 # costante). Niente decoder di formati: sintetizziamo i campioni in Rust.

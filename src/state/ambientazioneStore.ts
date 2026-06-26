@@ -15,6 +15,7 @@ import {
   copiaImmagineInCartella,
   copiaPresentazioneInCartella,
   creaAmbientazione,
+  generaMiniatura,
   salvaAmbientazione,
 } from "../lib/storage";
 import { aggiungiRecente, aggiornaNomeRecente } from "../lib/recents";
@@ -114,6 +115,7 @@ interface AmbientazioneState {
   modificaCropOggetto: (id: string, crop: Crop) => void;
   eliminaOggetto: (id: string) => void;
   assegnaOggettoAPersonaggio: (personaggioId: string, oggettoId: string | null) => void;
+  assicuraMiniatureOggetti: () => Promise<void>;
   markSaving: () => void;
   markSaved: (a: Ambientazione) => void;
   markError: (msg: string) => void;
@@ -751,16 +753,47 @@ export const useAmbientazioneStore = create<AmbientazioneState>((set, get) => ({
     if (!folderPath) throw new Error("Nessuna ambientazione aperta");
     const id = nuovoId();
     const relativo = await copiaImmagineInCartella(folderPath, sourceImgPath, "oggetti", id);
+    // Miniatura leggera per la griglia di assegnazione (evita di decodificare
+    // l'immagine originale, spesso da diversi MB, a ogni apertura del popover).
+    let thumbPath: string | undefined;
+    try {
+      thumbPath = await generaMiniatura(folderPath, relativo);
+    } catch (e) {
+      console.warn("Miniatura oggetto non generata, uso l'originale", e);
+    }
     const oggetto: Oggetto = {
       id,
       nome: nome.trim(),
       imgPath: relativo,
+      thumbPath,
       crop,
     };
     get().modifica((draft) => {
       draft.oggetti.push(oggetto);
     });
     return id;
+  },
+
+  async assicuraMiniatureOggetti() {
+    const { folderPath, current } = get();
+    if (!folderPath || !current) return;
+    const daFare = current.oggetti.filter((o) => !o.thumbPath);
+    if (daFare.length === 0) return;
+    const generate = new Map<string, string>();
+    for (const o of daFare) {
+      try {
+        generate.set(o.id, await generaMiniatura(folderPath, o.imgPath));
+      } catch (e) {
+        console.warn(`Miniatura non generata per l'oggetto ${o.id}`, e);
+      }
+    }
+    if (generate.size === 0) return;
+    get().modifica((draft) => {
+      for (const o of draft.oggetti) {
+        const t = generate.get(o.id);
+        if (t) o.thumbPath = t;
+      }
+    });
   },
 
   rinominaOggetto(id, nome) {
