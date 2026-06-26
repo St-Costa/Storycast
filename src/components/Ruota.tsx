@@ -349,7 +349,8 @@ function renderFaccia(f: FettaCalcolata, p: PartecipanteSnap, idBase: string, fo
 
   return (
     <g key={`${f.id}-face`}>
-      <circle cx={x} cy={y} r={dim / 2} fill="#ddd" />
+      {/* Nessun riempimento dietro la faccia: i PNG senza sfondo restano trasparenti
+          e lasciano vedere il colore della fetta sottostante. */}
       <g clipPath={`url(#${idBase}-fc-${f.id})`}>
         <image
           href={risolviAsset(folderPath, p.imgPath)}
