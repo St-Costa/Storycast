@@ -15,6 +15,7 @@ import {
   copiaImmagineInCartella,
   copiaPresentazioneInCartella,
   creaAmbientazione,
+  generaFaccia,
   generaMiniatura,
   salvaAmbientazione,
 } from "../lib/storage";
@@ -116,6 +117,7 @@ interface AmbientazioneState {
   eliminaOggetto: (id: string) => void;
   assegnaOggettoAPersonaggio: (personaggioId: string, oggettoId: string | null) => void;
   assicuraMiniatureOggetti: () => Promise<void>;
+  assicuraFaccePersonaggi: () => Promise<void>;
   markSaving: () => void;
   markSaved: (a: Ambientazione) => void;
   markError: (msg: string) => void;
@@ -215,6 +217,10 @@ export const useAmbientazioneStore = create<AmbientazioneState>((set, get) => ({
     });
     await aggiungiRecente(folderPath, a.nome);
     notificaProiezione(get());
+    // Backfill non bloccante delle miniature-faccia mancanti (scenari creati
+    // prima dell'introduzione di facciaPath): la UI è già interattiva, le facce
+    // passano dall'originale alla miniatura man mano che vengono generate.
+    void get().assicuraFaccePersonaggi();
   },
 
   async creaNuova(folderParent, nome) {
@@ -304,11 +310,22 @@ export const useAmbientazioneStore = create<AmbientazioneState>((set, get) => ({
     if (!folderPath) throw new Error("Nessuna ambientazione aperta");
     const id = nuovoId();
     const relativo = await copiaImmagineInCartella(folderPath, sourceImgPath, "personaggi", id);
+    // Miniatura faccia (~512px): usata per i cerchietti su mappa/ruota ecc. al
+    // posto dell'originale, che spesso pesa vari MB → decodificarlo a ogni
+    // apertura era il collo di bottiglia (3-5s). Se fallisce si ripiega
+    // sull'originale (facciaPath resta undefined).
+    let facciaPath: string | undefined;
+    try {
+      facciaPath = await generaFaccia(folderPath, relativo);
+    } catch (e) {
+      console.warn("Miniatura faccia non generata, uso l'originale", e);
+    }
     const personaggio: Personaggio = {
       id,
       nome: nome.trim(),
       colore: colore.toUpperCase(),
       imgPath: relativo,
+      facciaPath,
       crop,
       posizione: { x: 0.1, y: 0.1 },
       posizioneIniziale: null,
@@ -792,6 +809,28 @@ export const useAmbientazioneStore = create<AmbientazioneState>((set, get) => ({
       for (const o of draft.oggetti) {
         const t = generate.get(o.id);
         if (t) o.thumbPath = t;
+      }
+    });
+  },
+
+  async assicuraFaccePersonaggi() {
+    const { folderPath, current } = get();
+    if (!folderPath || !current) return;
+    const daFare = current.personaggi.filter((p) => !p.facciaPath);
+    if (daFare.length === 0) return;
+    const generate = new Map<string, string>();
+    for (const p of daFare) {
+      try {
+        generate.set(p.id, await generaFaccia(folderPath, p.imgPath));
+      } catch (e) {
+        console.warn(`Miniatura faccia non generata per il personaggio ${p.id}`, e);
+      }
+    }
+    if (generate.size === 0) return;
+    get().modifica((draft) => {
+      for (const p of draft.personaggi) {
+        const f = generate.get(p.id);
+        if (f) p.facciaPath = f;
       }
     });
   },

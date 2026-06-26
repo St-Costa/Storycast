@@ -38,6 +38,7 @@ export default function PannelloLeaderboard({ onChiudi }: Props) {
       nome: r.nome,
       colore: r.colore,
       imgPath: r.imgPath,
+      facciaPath: r.facciaPath,
       crop: r.crop,
       tick: t,
       totale: (t[0] ? 1 : 0) + (t[1] ? 1 : 0) - (t[2] ? 1 : 0),
@@ -85,6 +86,7 @@ export default function PannelloLeaderboard({ onChiudi }: Props) {
         nome: r.nome,
         colore: r.colore,
         imgPath: r.imgPath,
+        facciaPath: r.facciaPath,
         crop: r.crop,
       }));
     avviaVittoria(vincitori);

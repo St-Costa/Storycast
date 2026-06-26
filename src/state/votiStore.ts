@@ -29,6 +29,7 @@ interface PersonaggioSnap {
   nome: string;
   colore: string;
   imgPath: string;
+  facciaPath?: string;
   crop: Crop;
 }
 
@@ -72,6 +73,7 @@ export const useVotiStore = create<VotiState>((set, get) => ({
       nome: p.nome,
       colore: p.colore,
       imgPath: p.imgPath,
+      facciaPath: p.facciaPath,
       crop: p.crop,
     });
     const righe: PersonaggioSnap[] = amb.personaggi.filter((p) => !p.npc).map(toSnap);
@@ -132,6 +134,7 @@ export const useVotiStore = create<VotiState>((set, get) => ({
         nome: r.nome,
         colore: r.colore,
         imgPath: r.imgPath,
+        facciaPath: r.facciaPath,
         crop: r.crop,
       }));
 
@@ -179,6 +182,7 @@ registraVotiSnapshotProvider((): VotiSnapshot | null => {
       nome: r.nome,
       colore: r.colore,
       imgPath: r.imgPath,
+      facciaPath: r.facciaPath,
       crop: r.crop,
     };
     const votantiIds = s.votanti[r.personaggioId] ?? [];
@@ -190,6 +194,7 @@ registraVotiSnapshotProvider((): VotiSnapshot | null => {
         nome: v.nome,
         colore: v.colore,
         imgPath: v.imgPath,
+        facciaPath: v.facciaPath,
         crop: v.crop,
       }));
     return { target, votanti, isNpc };

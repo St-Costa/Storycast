@@ -17,9 +17,13 @@ use tauri_plugin_fs::FsExt;
 const THUMB_MAX: u32 = 128;
 
 #[tauri::command]
-fn genera_miniatura(src: String, dest: String) -> Result<(), String> {
+fn genera_miniatura(src: String, dest: String, max: Option<u32>) -> Result<(), String> {
+    // `max` = lato massimo della miniatura. Default 128 (griglia oggetti); le
+    // facce dei personaggi usano un valore più alto (~512) perché appaiono
+    // grandi su mappa, ruota e leaderboard.
+    let lato = max.unwrap_or(THUMB_MAX).clamp(16, 2048);
     let img = image::open(&src).map_err(|e| format!("apertura {src}: {e}"))?;
-    let thumb = img.thumbnail(THUMB_MAX, THUMB_MAX);
+    let thumb = img.thumbnail(lato, lato);
     thumb
         .save_with_format(&dest, image::ImageFormat::Png)
         .map_err(|e| format!("salvataggio {dest}: {e}"))?;

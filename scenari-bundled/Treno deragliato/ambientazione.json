@@ -25,7 +25,8 @@
       },
       "oggettoId": null,
       "oggettoInizialeId": null,
-      "npc": false
+      "npc": false,
+      "facciaPath": "personaggi/f6c883ee-f395-4b67-8e54-648421ce090a_faccia.png"
     },
     {
       "id": "0457871a-b8ec-43a4-9b71-12ed2d9756d1",
@@ -47,7 +48,8 @@
       },
       "oggettoId": null,
       "oggettoInizialeId": null,
-      "npc": false
+      "npc": false,
+      "facciaPath": "personaggi/0457871a-b8ec-43a4-9b71-12ed2d9756d1_faccia.png"
     },
     {
       "id": "00c8b779-7393-43b0-ace6-b90dfda410a8",
@@ -69,7 +71,8 @@
       },
       "oggettoId": null,
       "oggettoInizialeId": null,
-      "npc": false
+      "npc": false,
+      "facciaPath": "personaggi/00c8b779-7393-43b0-ace6-b90dfda410a8_faccia.png"
     },
     {
       "id": "c58138a3-66e0-440e-a475-11bb3df10801",
@@ -91,7 +94,8 @@
       },
       "oggettoId": null,
       "oggettoInizialeId": null,
-      "npc": false
+      "npc": false,
+      "facciaPath": "personaggi/c58138a3-66e0-440e-a475-11bb3df10801_faccia.png"
     },
     {
       "id": "31691a2d-a165-490f-8826-077e3fc2a7c6",
@@ -113,7 +117,8 @@
       },
       "oggettoId": null,
       "oggettoInizialeId": null,
-      "npc": false
+      "npc": false,
+      "facciaPath": "personaggi/31691a2d-a165-490f-8826-077e3fc2a7c6_faccia.png"
     },
     {
       "id": "be5075c4-da76-4ddf-9128-fdcecd37395d",
@@ -135,7 +140,8 @@
       },
       "oggettoId": null,
       "oggettoInizialeId": null,
-      "npc": true
+      "npc": true,
+      "facciaPath": "personaggi/be5075c4-da76-4ddf-9128-fdcecd37395d_faccia.png"
     }
   ],
   "oggetti": [
@@ -147,7 +153,8 @@
         "zoom": 1.4144271570014144,
         "offsetX": -0.005639883188100964,
         "offsetY": 0.007350980318509615
-      }
+      },
+      "thumbPath": "oggetti/6299bc43-29fb-45e2-83d7-fd18711305a0_thumb.png"
     },
     {
       "id": "f136c9d5-86b0-444f-b4d8-d904d358150e",
@@ -157,7 +164,8 @@
         "zoom": 1.4144271570014144,
         "offsetX": -0.003085092397836539,
         "offsetY": 0.05615574763371394
-      }
+      },
+      "thumbPath": "oggetti/f136c9d5-86b0-444f-b4d8-d904d358150e_thumb.png"
     },
     {
       "id": "86f29c6f-4be7-48a0-a940-847e982b5ac4",
@@ -167,7 +175,8 @@
         "zoom": 1.555869872701556,
         "offsetX": 0.005448091947115383,
         "offsetY": 0.02755103478064904
-      }
+      },
+      "thumbPath": "oggetti/86f29c6f-4be7-48a0-a940-847e982b5ac4_thumb.png"
     },
     {
       "id": "f6f75f56-d7da-4940-be5c-dbd864519ce4",
@@ -177,7 +186,8 @@
         "zoom": 1.4850000000000003,
         "offsetX": -0.0007089468149038461,
         "offsetY": 0.011651259202223558
-      }
+      },
+      "thumbPath": "oggetti/f6f75f56-d7da-4940-be5c-dbd864519ce4_thumb.png"
     },
     {
       "id": "393ef091-ae48-4a77-a5d3-1065d9a8e050",
@@ -187,7 +197,8 @@
         "zoom": 1.3975500000000005,
         "offsetX": -0.002903395432692307,
         "offsetY": 0.10637371356670673
-      }
+      },
+      "thumbPath": "oggetti/393ef091-ae48-4a77-a5d3-1065d9a8e050_thumb.png"
     },
     {
       "id": "3a07eaf1-9101-492d-b70c-3adfea4c0447",
@@ -197,7 +208,8 @@
         "zoom": 1.4144271570014144,
         "offsetX": 0,
         "offsetY": 0
-      }
+      },
+      "thumbPath": "oggetti/3a07eaf1-9101-492d-b70c-3adfea4c0447_thumb.png"
     },
     {
       "id": "7949bac6-9279-4771-a9cc-6b28d2033ee3",
@@ -207,7 +219,8 @@
         "zoom": 1.4144271570014144,
         "offsetX": 0,
         "offsetY": 0
-      }
+      },
+      "thumbPath": "oggetti/7949bac6-9279-4771-a9cc-6b28d2033ee3_thumb.png"
     },
     {
       "id": "8e47e10f-3be0-4f66-aa94-aefeb9238735",

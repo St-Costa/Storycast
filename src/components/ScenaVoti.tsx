@@ -89,7 +89,8 @@ function GrigliaVotanti({
         {votanti.map((v) => (
           <Cerchietto
             key={v.personaggioId}
-            src={risolviAsset(folderPath, v.imgPath)}
+            src={risolviAsset(folderPath, v.facciaPath ?? v.imgPath)}
+            formatoSrc={v.imgPath}
             colore={v.colore}
             crop={v.crop}
             dimensione={dim}
@@ -121,7 +122,8 @@ function GrigliaVotanti({
         return (
           <div key={v.personaggioId} style={{ position: "absolute", top, left }}>
             <Cerchietto
-              src={risolviAsset(folderPath, v.imgPath)}
+              src={risolviAsset(folderPath, v.facciaPath ?? v.imgPath)}
+              formatoSrc={v.imgPath}
               colore={v.colore}
               crop={v.crop}
               dimensione={dim}
@@ -209,7 +211,8 @@ export default function ScenaVoti({ snapshot, folderPath, sfondoSrc }: Props) {
         </span>
 
         <Cerchietto
-          src={risolviAsset(folderPath, r.target.imgPath)}
+          src={risolviAsset(folderPath, r.target.facciaPath ?? r.target.imgPath)}
+          formatoSrc={r.target.imgPath}
           colore={r.target.colore}
           crop={r.target.crop}
           dimensione={dimTarget}
@@ -259,7 +262,8 @@ export default function ScenaVoti({ snapshot, folderPath, sfondoSrc }: Props) {
 
               <div className={styles.npcTarget}>
                 <Cerchietto
-                  src={risolviAsset(folderPath, npcRiga.target.imgPath)}
+                  src={risolviAsset(folderPath, npcRiga.target.facciaPath ?? npcRiga.target.imgPath)}
+                  formatoSrc={npcRiga.target.imgPath}
                   colore={npcRiga.target.colore}
                   crop={npcRiga.target.crop}
                   dimensione={dimNpc}

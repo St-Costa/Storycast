@@ -93,7 +93,8 @@ export default function SezionePersonaggi({ onNuovoPersonaggio }: Props) {
                   onClick={() => seleziona(selezionatoId === p.id ? null : p.id)}
                 >
                   <Cerchietto
-                    src={risolviAsset(folderPath, p.imgPath)}
+                    src={risolviAsset(folderPath, p.facciaPath ?? p.imgPath)}
+                    formatoSrc={p.imgPath}
                     colore={p.colore}
                     crop={p.crop}
                     dimensione={36}

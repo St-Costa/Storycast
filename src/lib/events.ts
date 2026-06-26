@@ -24,6 +24,9 @@ export interface PartecipanteSnap {
   nome: string;
   colore: string;
   imgPath: string;
+  // Miniatura faccia (~512px): preferita all'originale per il rendering. Vedi
+  // Personaggio.facciaPath. Opzionale per personaggi senza miniatura.
+  facciaPath?: string;
   crop: import("./ambientazione").Crop;
   modificatore: Modificatore;
   fonte: FonteSnap | null;
@@ -51,6 +54,7 @@ export interface RigaLeaderboardSnap {
   nome: string;
   colore: string;
   imgPath: string;
+  facciaPath?: string;
   crop: import("./ambientazione").Crop;
   tick: [boolean, boolean, boolean];
   totale: number;
@@ -66,6 +70,7 @@ export interface VincitoreSnap {
   nome: string; // NON renderizzato (cerchi senza nomi), incluso per completezza
   colore: string;
   imgPath: string;
+  facciaPath?: string;
   crop: import("./ambientazione").Crop;
 }
 
@@ -93,6 +98,7 @@ export interface PersonaggioMiniSnap {
   nome: string;
   colore: string;
   imgPath: string;
+  facciaPath?: string;
   crop: import("./ambientazione").Crop;
 }
 

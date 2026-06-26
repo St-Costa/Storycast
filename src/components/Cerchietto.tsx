@@ -10,6 +10,10 @@ function isPng(src: string): boolean {
 
 interface Props {
   src: string;
+  // Sorgente da cui dedurre il formato (PNG vs no) per la scelta del bordo.
+  // Quando `src` è una miniatura-faccia (sempre .png), passare qui l'originale
+  // (`imgPath`) evita di trattare come trasparente un JPG opaco. Default: `src`.
+  formatoSrc?: string;
   colore: string;
   crop: Crop;
   dimensione: number;
@@ -23,6 +27,7 @@ interface Props {
 
 export default function Cerchietto({
   src,
+  formatoSrc,
   colore,
   crop,
   dimensione,
@@ -35,7 +40,7 @@ export default function Cerchietto({
   // I PNG (sfondo potenzialmente trasparente) non hanno bordo: il disco colorato
   // arriva fino al bordo esterno e la figura ci "galleggia" sopra. L'anello NPC
   // mantiene comunque il suo spessore (è l'unico segno di bordo per gli NPC).
-  const bordo = isPng(src) ? 0 : bordoBase;
+  const bordo = isPng(formatoSrc ?? src) ? 0 : bordoBase;
   // Wrapper esterno: non ritaglia (così l'anello SVG dell'NPC può essere
   // disegnato anche sopra l'area del bordo); porta l'alone di selezione.
   const stileRoot: CSSProperties = {

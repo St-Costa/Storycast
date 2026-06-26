@@ -39,7 +39,8 @@ export default function ClassificaPodio({ righe, folderPath, dimensioneCerchiett
               )}
               <div className={`${styles.alone} ${vincitore ? styles.aloneVincitore : ""}`}>
                 <Cerchietto
-                  src={risolviAsset(folderPath, r.imgPath)}
+                  src={risolviAsset(folderPath, r.facciaPath ?? r.imgPath)}
+                  formatoSrc={r.imgPath}
                   colore={r.colore}
                   crop={r.crop}
                   dimensione={dim}

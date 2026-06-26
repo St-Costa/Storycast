@@ -265,7 +265,8 @@ export default function Ruota({
           </div>
           <div className={styles.cerchioWrap}>
             <Cerchietto
-              src={risolviAsset(folderPath, vincitoreSnap.imgPath)}
+              src={risolviAsset(folderPath, vincitoreSnap.facciaPath ?? vincitoreSnap.imgPath)}
+              formatoSrc={vincitoreSnap.imgPath}
               colore={vincitoreSnap.colore}
               crop={vincitoreSnap.crop}
               dimensione={Math.round(dimensione * 0.28)}
@@ -353,7 +354,7 @@ function renderFaccia(f: FettaCalcolata, p: PartecipanteSnap, idBase: string, fo
           e lasciano vedere il colore della fetta sottostante. */}
       <g clipPath={`url(#${idBase}-fc-${f.id})`}>
         <image
-          href={risolviAsset(folderPath, p.imgPath)}
+          href={risolviAsset(folderPath, p.facciaPath ?? p.imgPath)}
           x={fx}
           y={fy}
           width={dim}

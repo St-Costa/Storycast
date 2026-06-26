@@ -247,7 +247,8 @@ export default function AnimazioneVittoria({ snapshot, folderPath }: Props) {
               </div>
               <div className={styles.cerchioWrap} style={{ animationDelay: `${delayCerchio}s` }}>
                 <Cerchietto
-                  src={risolviAsset(folderPath, v.imgPath)}
+                  src={risolviAsset(folderPath, v.facciaPath ?? v.imgPath)}
+                  formatoSrc={v.imgPath}
                   colore={v.colore}
                   crop={v.crop}
                   dimensione={dim}

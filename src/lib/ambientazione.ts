@@ -17,6 +17,11 @@ export interface Personaggio {
   nome: string;
   colore: string;
   imgPath: string;
+  // Miniatura ~512px della faccia, usata per i cerchietti su mappa/ruota/
+  // leaderboard al posto dell'originale (spesso ~2000px / vari MB): decodificarne
+  // 16 a piena risoluzione all'apertura causava 3-5s di freeze. Opzionale per
+  // retro-compatibilità: i personaggi vecchi la rigenerano al caricamento.
+  facciaPath?: string;
   crop: Crop;
   posizione: Posizione;
   posizioneIniziale: Posizione | null;
@@ -185,6 +190,8 @@ function validaPersonaggio(raw: unknown, idx: number): Personaggio {
     nome: raw.nome,
     colore: raw.colore.toUpperCase(),
     imgPath: raw.imgPath,
+    facciaPath:
+      typeof raw.facciaPath === "string" && raw.facciaPath !== "" ? raw.facciaPath : undefined,
     crop: validaCrop(raw.crop, ctx),
     posizione: validaPosizione(raw.posizione, ctx),
     posizioneIniziale,

@@ -137,17 +137,33 @@ export function risolviAsset(folderPath: string, relativePath: string): string {
 export async function generaMiniatura(
   folderPath: string,
   imgRelativePath: string,
+  opts?: { max?: number; suffisso?: string },
 ): Promise<string> {
   const dot = imgRelativePath.lastIndexOf(".");
   const base = dot === -1 ? imgRelativePath : imgRelativePath.slice(0, dot);
-  const thumbRelativo = `${base}_thumb.png`;
+  const thumbRelativo = `${base}${opts?.suffisso ?? "_thumb"}.png`;
   await wrapIO("generazione miniatura", () =>
     invoke("genera_miniatura", {
       src: joinPath(folderPath, imgRelativePath),
       dest: joinPath(folderPath, thumbRelativo),
+      max: opts?.max,
     }),
   );
   return thumbRelativo;
+}
+
+// Miniatura "faccia" del personaggio: lato ~512px, abbastanza nitida per i
+// cerchietti su mappa/ruota/leaderboard ma ~16x più leggera da decodificare
+// dell'originale (spesso ~2000px / vari MB). Salvata come "<base>_faccia.png".
+const LATO_FACCIA = 512;
+export async function generaFaccia(
+  folderPath: string,
+  imgRelativePath: string,
+): Promise<string> {
+  return generaMiniatura(folderPath, imgRelativePath, {
+    max: LATO_FACCIA,
+    suffisso: "_faccia",
+  });
 }
 
 const ESTENSIONI_AUDIO = new Set(["mp3", "wav", "ogg", "m4a", "aac", "flac"]);

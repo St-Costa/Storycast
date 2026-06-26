@@ -29,6 +29,7 @@ interface RigaSnapInterno {
   nome: string;
   colore: string;
   imgPath: string;
+  facciaPath?: string;
   crop: import("../lib/ambientazione").Crop;
 }
 
@@ -66,6 +67,7 @@ export const useLeaderboardStore = create<LeaderboardState>((set, get) => ({
         nome: p.nome,
         colore: p.colore,
         imgPath: p.imgPath,
+        facciaPath: p.facciaPath,
         crop: p.crop,
       }));
     const righe = applicaOrdine(base, amb.leaderboardOrdine ?? []);
@@ -119,6 +121,7 @@ registraLeaderboardSnapshotProvider((): LeaderboardSnapshot | null => {
       nome: r.nome,
       colore: r.colore,
       imgPath: r.imgPath,
+      facciaPath: r.facciaPath,
       crop: r.crop,
       tick: t,
       totale,

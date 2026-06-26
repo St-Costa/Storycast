@@ -76,6 +76,7 @@ function snapshotPartecipantiOra(partecipanti: PartecipanteConflitto[]): Parteci
       nome: personaggio.nome,
       colore: personaggio.colore,
       imgPath: personaggio.imgPath,
+      facciaPath: personaggio.facciaPath,
       crop: personaggio.crop,
       modificatore: p.modificatore,
       fonte: fonteToSnap(p.fonte),

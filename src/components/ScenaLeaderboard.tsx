@@ -45,7 +45,8 @@ export default function ScenaLeaderboard({ snapshot, folderPath }: Props) {
           <div key={r.personaggioId} className={styles.riga}>
             <div className={styles.cellaPersonaggio}>
               <Cerchietto
-                src={risolviAsset(folderPath, r.imgPath)}
+                src={risolviAsset(folderPath, r.facciaPath ?? r.imgPath)}
+                formatoSrc={r.imgPath}
                 colore={r.colore}
                 crop={r.crop}
                 dimensione={dimCerchietto}

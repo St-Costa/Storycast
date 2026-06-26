@@ -133,7 +133,8 @@ export default function Scena({
               }}
             >
               <Cerchietto
-                src={risolviAsset(folderPath, p.imgPath)}
+                src={risolviAsset(folderPath, p.facciaPath ?? p.imgPath)}
+                formatoSrc={p.imgPath}
                 colore={p.colore}
                 crop={p.crop}
                 dimensione={dimCerchietto}
