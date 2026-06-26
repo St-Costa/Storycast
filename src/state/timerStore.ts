@@ -4,6 +4,7 @@ import {
   registraTimerSnapshotProvider,
   useAmbientazioneStore,
 } from "./ambientazioneStore";
+import { useCronometroStore } from "./cronometroStore";
 import type { TimerSnapshot } from "../lib/events";
 
 export type StatoTimer = "idle" | "running" | "paused" | "ended";
@@ -54,6 +55,8 @@ export const useTimerStore = create<TimerState>((set, get) => ({
       targetEndAt: Date.now() + s.durationSec * 1000,
       pausedRemainingMs: 0,
     });
+    // Avvia il cronometro del tempo trascorso alla PRIMA partenza del timer.
+    useCronometroStore.getState().avviaSeNonPartito();
     forceEmitScena();
   },
 
@@ -126,6 +129,14 @@ export function remainingMs(snap: TimerSnapshot, now: number = Date.now()): numb
     case "ended":
       return 0;
   }
+}
+
+/** Formatta ms trascorsi come "hh:mm" (solo ore e minuti). */
+export function formatElapsed(ms: number): string {
+  const totaleMin = Math.max(0, Math.floor(ms / 60000));
+  const h = Math.floor(totaleMin / 60);
+  const m = totaleMin % 60;
+  return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}`;
 }
 
 /** Formatta ms come "mm:ss" (00:00 minimo). */

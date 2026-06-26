@@ -62,6 +62,16 @@
   pointer-events: auto;
 }
 
+.cronometroOverlay {
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  transform: scale(2);
+  transform-origin: top right;
+  z-index: 10;
+  pointer-events: auto;
+}
+
 .numeroBadge {
   position: absolute;
   bottom: 3px;

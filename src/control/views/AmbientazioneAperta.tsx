@@ -9,6 +9,7 @@ import WizardPersonaggio from "./WizardPersonaggio";
 import WizardOggetto from "./WizardOggetto";
 import PannelloConflitto from "./PannelloConflitto";
 import PannelloTimer from "./PannelloTimer";
+import Cronometro from "./Cronometro";
 import PannelloLeaderboard from "./PannelloLeaderboard";
 import PannelloGioco from "./PannelloGioco";
 import PannelloSoundboard from "./PannelloSoundboard";
@@ -286,6 +287,9 @@ export default function AmbientazioneAperta() {
         <AreaMappa />
         <div className={styles.timerOverlay}>
           <PannelloTimer sovraMappa />
+        </div>
+        <div className={styles.cronometroOverlay}>
+          <Cronometro />
         </div>
       </div>
 
