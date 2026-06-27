@@ -100,6 +100,8 @@ export interface PersonaggioMiniSnap {
   imgPath: string;
   facciaPath?: string;
   crop: import("./ambientazione").Crop;
+  // true = votante extra: cerchietto grigio (nessun colore personaggio).
+  grigio?: boolean;
 }
 
 // Un "accusato" con la lista di chi lo ha votato.

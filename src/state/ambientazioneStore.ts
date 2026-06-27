@@ -7,6 +7,7 @@ import type {
   Personaggio,
   Posizione,
   TipoAnnotazione,
+  Votante,
 } from "../lib/ambientazione";
 import { DIM_ANNOTAZIONE_MAX, DIM_ANNOTAZIONE_MIN, normalizzaGradi } from "../lib/ambientazione";
 import {
@@ -74,6 +75,10 @@ interface AmbientazioneState {
   cambiaColorePersonaggio: (id: string, hex: string) => void;
   modificaCropPersonaggio: (id: string, crop: Crop) => void;
   impostaNpcPersonaggio: (id: string, npc: boolean) => void;
+  // Votante extra (può solo votare): imposta/sostituisce, modifica ritaglio, rimuove.
+  impostaVotante: (input: { sourceImgPath: string; crop: Crop }) => Promise<void>;
+  modificaCropVotante: (crop: Crop) => void;
+  rimuoviVotante: () => void;
   salvaPosizioneInizialePersonaggio: (id: string) => void;
   ripristinaPosizioneInizialePersonaggio: (id: string) => void;
   eliminaPosizioneInizialePersonaggio: (id: string) => void;
@@ -373,6 +378,36 @@ export const useAmbientazioneStore = create<AmbientazioneState>((set, get) => ({
     get().modifica((draft) => {
       const p = draft.personaggi.find((x) => x.id === id);
       if (p) p.npc = npc;
+    });
+  },
+
+  async impostaVotante({ sourceImgPath, crop }) {
+    const { folderPath } = get();
+    if (!folderPath) throw new Error("Nessuna ambientazione aperta");
+    // Un solo votante: ID fisso così sostituire l'immagine sovrascrive la
+    // precedente nella cartella `votante/`.
+    const relativo = await copiaImmagineInCartella(folderPath, sourceImgPath, "votante", "votante");
+    let facciaPath: string | undefined;
+    try {
+      facciaPath = await generaFaccia(folderPath, relativo);
+    } catch (e) {
+      console.warn("Miniatura faccia votante non generata, uso l'originale", e);
+    }
+    const votante: Votante = { imgPath: relativo, facciaPath, crop };
+    get().modifica((draft) => {
+      draft.votante = votante;
+    });
+  },
+
+  modificaCropVotante(crop) {
+    get().modifica((draft) => {
+      if (draft.votante) draft.votante.crop = crop;
+    });
+  },
+
+  rimuoviVotante() {
+    get().modifica((draft) => {
+      draft.votante = null;
     });
   },
 

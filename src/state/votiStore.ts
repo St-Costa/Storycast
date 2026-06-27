@@ -31,16 +31,26 @@ interface PersonaggioSnap {
   imgPath: string;
   facciaPath?: string;
   crop: Crop;
+  // true = è il votante extra: può solo votare, non è mai un accusato e ha il
+  // cerchietto grigio (nessun colore personaggio).
+  grigio?: boolean;
 }
+
+// ID stabile del votante extra: non è un Personaggio, ma serve un id per
+// tracciarlo nei voti come gli altri elettori.
+const ID_VOTANTE = "__votante__";
 
 interface VotiState {
   fase: FaseVoti;
   // snapshot dei personaggi NON-NPC al momento di apri() (giocatori)
   righe: PersonaggioSnap[];
-  // L'unico NPC dello scenario (se presente): è sia votabile sia votante.
+  // L'unico NPC dello scenario (se presente): può essere votato (accusato) ma
+  // NON vota più (il voto NPC è stato rimosso a favore del votante extra).
   npc: PersonaggioSnap | null;
   // NPC reso "votabile": solo allora compare in proiezione come accusato.
   npcVotabile: boolean;
+  // Votante extra (se configurato nell'ambientazione): può SOLO votare.
+  votante: PersonaggioSnap | null;
   // votanti[targetId] = array di voterId che hanno votato per target.
   // I target e i votanti includono l'NPC.
   votanti: Record<string, string[]>;
@@ -61,6 +71,7 @@ export const useVotiStore = create<VotiState>((set, get) => ({
   righe: [],
   npc: null,
   npcVotabile: false,
+  votante: null,
   votanti: {},
   prigionieri: null,
   prigionieroTrigger: 0,
@@ -80,12 +91,24 @@ export const useVotiStore = create<VotiState>((set, get) => ({
     // In ogni scenario c'è sempre esattamente un NPC: lo prendiamo (se presente).
     const npcPers = amb.personaggi.find((p) => p.npc) ?? null;
     const npc = npcPers ? toSnap(npcPers) : null;
+    // Votante extra (se configurato): può solo votare, cerchietto grigio.
+    const votante: PersonaggioSnap | null = amb.votante
+      ? {
+          personaggioId: ID_VOTANTE,
+          nome: "Votante",
+          colore: "#9AA0A6",
+          imgPath: amb.votante.imgPath,
+          facciaPath: amb.votante.facciaPath,
+          crop: amb.votante.crop,
+          grigio: true,
+        }
+      : null;
     // Reset voti ad ogni apertura: ogni sessione di gioco parte da zero.
     // I target (chiavi) includono anche l'NPC, così può ricevere voti.
     const votanti: Record<string, string[]> = {};
     for (const r of righe) votanti[r.personaggioId] = [];
     if (npc) votanti[npc.personaggioId] = [];
-    set({ fase: "aperta", righe, npc, npcVotabile: false, votanti });
+    set({ fase: "aperta", righe, npc, npcVotabile: false, votante, votanti });
     forceEmitScena();
   },
 
@@ -172,8 +195,12 @@ registraPrigionieroSnapshotProvider((): PrigionieroSnapshot | null => {
 registraVotiSnapshotProvider((): VotiSnapshot | null => {
   const s = useVotiStore.getState();
   if (s.fase !== "aperta") return null;
-  // Mappa per risolvere i votanti: include l'NPC (può votare i giocatori).
-  const tutti: PersonaggioSnap[] = s.npc ? [...s.righe, s.npc] : s.righe;
+  // Mappa per risolvere i votanti: i giocatori + il votante extra. L'NPC NON
+  // vota più (ma resta accusabile, quindi va aggiunto alla mappa come possibile
+  // target — non come elettore).
+  const tutti: PersonaggioSnap[] = [...s.righe];
+  if (s.npc) tutti.push(s.npc);
+  if (s.votante) tutti.push(s.votante);
   const map = new Map(tutti.map((r) => [r.personaggioId, r]));
 
   const costruisciRiga = (r: PersonaggioSnap, isNpc: boolean): RigaVotiSnap => {
@@ -196,6 +223,7 @@ registraVotiSnapshotProvider((): VotiSnapshot | null => {
         imgPath: v.imgPath,
         facciaPath: v.facciaPath,
         crop: v.crop,
+        grigio: v.grigio,
       }));
     return { target, votanti, isNpc };
   };

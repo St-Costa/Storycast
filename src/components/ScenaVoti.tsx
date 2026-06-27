@@ -94,6 +94,7 @@ function GrigliaVotanti({
             colore={v.colore}
             crop={v.crop}
             dimensione={dim}
+            grigio={v.grigio}
             alt={v.nome}
           />
         ))}
@@ -127,6 +128,7 @@ function GrigliaVotanti({
               colore={v.colore}
               crop={v.crop}
               dimensione={dim}
+              grigio={v.grigio}
               alt={v.nome}
             />
           </div>

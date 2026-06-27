@@ -21,9 +21,14 @@ interface Props {
   selezionato?: boolean;
   /** @deprecated Gli NPC sono ora visivamente identici ai personaggi normali; mantenuto per compatibilità con i chiamanti. */
   npc?: boolean;
+  // Votante extra: niente colore personaggio. Disco/bordo grigi neutri (lo
+  // sfondo dietro un PNG trasparente è grigio invece del colore).
+  grigio?: boolean;
   className?: string;
   alt?: string;
 }
+
+const COLORE_GRIGIO = "#9aa0a6";
 
 export default function Cerchietto({
   src,
@@ -33,9 +38,12 @@ export default function Cerchietto({
   dimensione,
   spessoreBordo,
   selezionato = false,
+  grigio = false,
   className,
   alt = "",
 }: Props) {
+  // Il votante extra usa un grigio neutro al posto del colore del personaggio.
+  const coloreEffettivo = grigio ? COLORE_GRIGIO : colore;
   const bordoBase = spessoreBordo ?? Math.max(3, Math.round(dimensione * 0.14));
   // I PNG (sfondo potenzialmente trasparente) non hanno bordo: il disco colorato
   // arriva fino al bordo esterno e la figura ci "galleggia" sopra. L'anello NPC
@@ -46,18 +54,20 @@ export default function Cerchietto({
   const stileRoot: CSSProperties = {
     width: dimensione,
     height: dimensione,
-    boxShadow: selezionato ? `0 0 0 3px rgba(255,255,255,0.8), 0 0 0 6px ${colore}` : undefined,
+    boxShadow: selezionato
+      ? `0 0 0 3px rgba(255,255,255,0.8), 0 0 0 6px ${coloreEffettivo}`
+      : undefined,
   };
   // Cerchio interno: ritaglia l'immagine e disegna il bordo colorato pieno.
   // Gli NPC sono visivamente identici ai personaggi normali (stesso bordo,
   // stesso trattamento PNG/sfondo): la distinzione resta solo logica.
   const stileCerchio: CSSProperties = {
-    borderColor: colore,
+    borderColor: coloreEffettivo,
     borderWidth: bordo,
     // Le immagini PNG con sfondo trasparente lasciano vedere il riempimento del
     // cerchio: usiamo il colore del personaggio così appare un "disco" colorato
     // con sopra la figura, invece dello sfondo bianco/grigio neutro.
-    background: colore,
+    background: coloreEffettivo,
   };
   const stileImg: CSSProperties = {
     transform: `translate(${crop.offsetX * 100}%, ${crop.offsetY * 100}%) scale(${crop.zoom})`,

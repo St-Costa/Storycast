@@ -113,7 +113,7 @@ function estensioneDi(path: string): string {
 export async function copiaImmagineInCartella(
   folderPath: string,
   sourceAbsPath: string,
-  subdir: "personaggi" | "oggetti" | "",
+  subdir: "personaggi" | "oggetti" | "votante" | "",
   baseId: string,
 ): Promise<string> {
   const ext = estensioneDi(sourceAbsPath);
@@ -121,6 +121,14 @@ export async function copiaImmagineInCartella(
   const relativo = subdir === "" ? `${baseId}.${safeExt}` : `${subdir}/${baseId}.${safeExt}`;
   const dest = joinPath(folderPath, relativo);
 
+  // Assicura che la sottocartella di destinazione esista: con scenari nuovi (o
+  // sottocartelle come "votante/" introdotte dopo) la dir potrebbe non esserci
+  // ancora e copyFile fallirebbe con ENOENT.
+  if (subdir !== "") {
+    await wrapIO("creazione cartella immagini", () =>
+      mkdir(joinPath(folderPath, subdir), { recursive: true }),
+    );
+  }
   await wrapIO("copia immagine", () => copyFile(sourceAbsPath, dest));
   return relativo;
 }

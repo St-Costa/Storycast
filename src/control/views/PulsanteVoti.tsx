@@ -3,6 +3,10 @@ import { open } from "@tauri-apps/plugin-dialog";
 import { eseguiSalvataggio, useAmbientazioneStore } from "../../state/ambientazioneStore";
 import { useVotiStore } from "../../state/votiStore";
 import { IconaVoto } from "../../components/Icone";
+import Cerchietto from "../../components/Cerchietto";
+import { risolviAsset } from "../../lib/storage";
+import EditorRitaglio from "./EditorRitaglio";
+import WizardVotante from "./WizardVotante";
 import styles from "./PulsanteVoti.module.css";
 import stylesConfig from "./PulsanteVotiConfig.module.css";
 
@@ -21,12 +25,17 @@ export default function PulsanteVoti({ numeroBadge }: Props) {
   const impostaSuonoPrigionieroSirena = useAmbientazioneStore(
     (s) => s.impostaSuonoPrigionieroSirena,
   );
+  const impostaVotante = useAmbientazioneStore((s) => s.impostaVotante);
+  const modificaCropVotante = useAmbientazioneStore((s) => s.modificaCropVotante);
+  const rimuoviVotante = useAmbientazioneStore((s) => s.rimuoviVotante);
 
   const fase = useVotiStore((s) => s.fase);
   const apri = useVotiStore((s) => s.apri);
   const chiudi = useVotiStore((s) => s.chiudi);
 
   const [mostraConfig, setMostraConfig] = useState(false);
+  const [mostraWizardVotante, setMostraWizardVotante] = useState(false);
+  const [mostraCropVotante, setMostraCropVotante] = useState(false);
 
   const inEdit = modalita === "edit";
   const sfondoVotiPath = current?.sfondoVotiPath ?? null;
@@ -35,6 +44,7 @@ export default function PulsanteVoti({ numeroBadge }: Props) {
   const suonoPrigionieroStingPath = current?.suonoPrigionieroStingPath ?? null;
   const suonoPrigionieroSirenaPath = current?.suonoPrigionieroSirenaPath ?? null;
   const haSfondoVoti = sfondoVotiPath !== null;
+  const votante = current?.votante ?? null;
   const aperta = fase === "aperta";
 
   // Quanti asset prigioniero sono configurati (0-4)
@@ -150,6 +160,62 @@ export default function PulsanteVoti({ numeroBadge }: Props) {
               </div>
 
               <div className={stylesConfig.sezione}>
+                <span className={stylesConfig.sezTitolo}>Personaggio votante</span>
+                <p className={stylesConfig.nota}>
+                  Può solo votare: non compare sulla mappa e non può essere votato.
+                </p>
+                {votante ? (
+                  <div className={stylesConfig.votanteRiga}>
+                    <Cerchietto
+                      src={risolviAsset(folderPath, votante.facciaPath ?? votante.imgPath)}
+                      formatoSrc={votante.imgPath}
+                      colore="#9AA0A6"
+                      crop={votante.crop}
+                      dimensione={56}
+                      grigio
+                      alt="Votante"
+                    />
+                    <div className={stylesConfig.votanteAzioni}>
+                      <button
+                        type="button"
+                        className={stylesConfig.slot}
+                        onClick={() => setMostraCropVotante(true)}
+                      >
+                        Modifica ritaglio
+                      </button>
+                      <button
+                        type="button"
+                        className={stylesConfig.slot}
+                        onClick={() => setMostraWizardVotante(true)}
+                      >
+                        Cambia immagine
+                      </button>
+                      <button
+                        type="button"
+                        className={stylesConfig.slot}
+                        onClick={() => {
+                          if (confirm("Rimuovere il personaggio votante?")) {
+                            rimuoviVotante();
+                            void eseguiSalvataggio();
+                          }
+                        }}
+                      >
+                        Rimuovi
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    className={stylesConfig.slot}
+                    onClick={() => setMostraWizardVotante(true)}
+                  >
+                    + Aggiungi votante
+                  </button>
+                )}
+              </div>
+
+              <div className={stylesConfig.sezione}>
                 <span className={stylesConfig.sezTitolo}>Animazione incarcerazione</span>
                 <SlotAsset
                   label="Sfondo animazione"
@@ -178,6 +244,33 @@ export default function PulsanteVoti({ numeroBadge }: Props) {
               </div>
             </div>
           </>
+        )}
+
+        {mostraWizardVotante && (
+          <WizardVotante
+            onAnnulla={() => setMostraWizardVotante(false)}
+            onConferma={async ({ sourceImgPath, crop }) => {
+              await impostaVotante({ sourceImgPath, crop });
+              await eseguiSalvataggio();
+              setMostraWizardVotante(false);
+            }}
+          />
+        )}
+
+        {mostraCropVotante && votante && (
+          <EditorRitaglio
+            nome="Votante"
+            imgPath={votante.imgPath}
+            cropIniziale={votante.crop}
+            colore="#9AA0A6"
+            folderPath={folderPath}
+            onAnnulla={() => setMostraCropVotante(false)}
+            onConferma={(crop) => {
+              modificaCropVotante(crop);
+              void eseguiSalvataggio();
+              setMostraCropVotante(false);
+            }}
+          />
         )}
       </div>
     );

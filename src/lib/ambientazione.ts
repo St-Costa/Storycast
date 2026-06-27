@@ -32,6 +32,17 @@ export interface Personaggio {
   npc: boolean;
 }
 
+// Personaggio "votante" extra: NON è un Personaggio (non sulla mappa, non in
+// leaderboard, non votabile). Può SOLO votare nella fase voti. Ne esiste al
+// massimo uno per ambientazione. Sfondo sempre grigio (vedi Cerchietto), con la
+// stessa dinamica PNG/non-PNG per il bordo.
+export interface Votante {
+  imgPath: string;
+  // Miniatura ~512px della faccia, come per i Personaggi.
+  facciaPath?: string;
+  crop: Crop;
+}
+
 export interface Oggetto {
   id: string;
   nome: string;
@@ -80,6 +91,8 @@ export interface Ambientazione {
   modificataIl: string;
   mappaPath: string | null;
   personaggi: Personaggio[];
+  // Votante extra opzionale: può solo votare nella fase voti (vedi Votante).
+  votante: Votante | null;
   oggetti: Oggetto[];
   annotazioni: Annotazione[];
   obiettivi: [string, string, string];
@@ -202,6 +215,20 @@ function validaPersonaggio(raw: unknown, idx: number): Personaggio {
   };
 }
 
+// Votante: opzionale, assente nelle ambientazioni precedenti → null. Se presente
+// ma malformato (es. imgPath mancante) lo trattiamo come assente invece di
+// bocciare l'intera ambientazione.
+function validaVotante(raw: unknown): Votante | null {
+  if (!isObject(raw)) return null;
+  if (typeof raw.imgPath !== "string" || raw.imgPath === "") return null;
+  return {
+    imgPath: raw.imgPath,
+    facciaPath:
+      typeof raw.facciaPath === "string" && raw.facciaPath !== "" ? raw.facciaPath : undefined,
+    crop: validaCrop(raw.crop, "votante"),
+  };
+}
+
 function validaOggetto(raw: unknown, idx: number): Oggetto {
   const ctx = `oggetto[${idx}]`;
   if (!isObject(raw)) throw new AmbientazioneCorrotta(`${ctx} non è un oggetto`);
@@ -276,6 +303,7 @@ export function validaAmbientazione(raw: unknown): Ambientazione {
     throw new AmbientazioneCorrotta("personaggi/oggetti non sono array");
   }
   const personaggi = raw.personaggi.map((p, i) => validaPersonaggio(p, i));
+  const votante = validaVotante(raw.votante);
   const oggetti = raw.oggetti.map((o, i) => validaOggetto(o, i));
   // annotazioni: array opzionale, assente nelle ambientazioni precedenti → [].
   const annotazioni: Annotazione[] = Array.isArray(raw.annotazioni)
@@ -358,6 +386,7 @@ export function validaAmbientazione(raw: unknown): Ambientazione {
     modificataIl: raw.modificataIl,
     mappaPath: raw.mappaPath,
     personaggi,
+    votante,
     oggetti,
     annotazioni,
     obiettivi,
@@ -407,6 +436,7 @@ export function nuovoManifest(nome: string): Ambientazione {
     modificataIl: now,
     mappaPath: null,
     personaggi: [],
+    votante: null,
     oggetti: [],
     annotazioni: [],
     obiettivi: ["", "", ""],

@@ -17,6 +17,7 @@ export default function PannelloVoti({ onChiudi }: Props) {
   const folderPath = useAmbientazioneStore((s) => s.folderPath);
   const righe = useVotiStore((s) => s.righe);
   const npc = useVotiStore((s) => s.npc);
+  const votante = useVotiStore((s) => s.votante);
   const npcVotabile = useVotiStore((s) => s.npcVotabile);
   const votanti = useVotiStore((s) => s.votanti);
   const toggleVoto = useVotiStore((s) => s.toggleVoto);
@@ -26,10 +27,11 @@ export default function PannelloVoti({ onChiudi }: Props) {
   const avviaPrigioniero = useVotiStore((s) => s.avviaPrigioniero);
   const prigionieri = useVotiStore((s) => s.prigionieri);
 
-  // Righe (accusati) e colonne (votanti) includono l'NPC: vota tutti e può
-  // essere votato. La riga NPC è semi-trasparente finché non lo rendi votabile.
+  // Accusati (righe): giocatori + NPC (l'NPC è votabile; semi-trasparente finché
+  // non lo rendi votabile). Votanti (colonne): giocatori + il votante extra.
+  // L'NPC NON vota più; il votante extra non è mai un accusato.
   const accusati = npc ? [...righe, npc] : righe;
-  const votantiCol = npc ? [...righe, npc] : righe;
+  const votantiCol = votante ? [...righe, votante] : righe;
 
   const maxVoti =
     accusati.length > 0
@@ -139,7 +141,7 @@ export default function PannelloVoti({ onChiudi }: Props) {
                           return <div key={v.personaggioId} className={styles.cellVuota} />;
                         }
                         const acceso = votantiTarget.includes(v.personaggioId);
-                        const isNpcVoter = npc !== null && v.personaggioId === npc.personaggioId;
+                        const isVotanteExtra = votante !== null && v.personaggioId === votante.personaggioId;
                         return (
                           <button
                             key={v.personaggioId}
@@ -155,7 +157,7 @@ export default function PannelloVoti({ onChiudi }: Props) {
                               colore={v.colore}
                               crop={v.crop}
                               dimensione={DIM_VOTANTE}
-                              npc={isNpcVoter}
+                              grigio={isVotanteExtra}
                               alt={v.nome}
                             />
                           </button>
