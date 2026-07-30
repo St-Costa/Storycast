@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "gdr-teambuilding-tool",
+  "productName": "storycast",
   "version": "0.1.0",
   "identifier": "com.teambuilding.gdr",
   "build": {

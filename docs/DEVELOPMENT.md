@@ -1,6 +1,6 @@
 # Development guide
 
-How to set up, run, and build the GDR Teambuilding Tool from source.
+How to set up, run, and build Storycast from source.
 
 ---
 

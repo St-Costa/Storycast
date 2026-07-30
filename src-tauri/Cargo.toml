@@ -1,12 +1,12 @@
 [package]
-name = "gdr-teambuilding-tool"
+name = "storycast"
 version = "0.1.0"
-description = "GDR Teambuilding Tool"
+description = "Storycast — live-action roleplay engine for teambuilding"
 authors = ["Stefano Costa Acquisti"]
 edition = "2021"
 
 [lib]
-name = "gdr_teambuilding_tool_lib"
+name = "storycast_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]

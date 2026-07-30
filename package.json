@@ -1,13 +1,13 @@
 {
-  "name": "gdr-teambuilding-tool",
+  "name": "storycast",
   "private": true,
   "version": "0.1.0",
-  "description": "Desktop tool for facilitating live tabletop-RPG teambuilding sessions: a two-window Tauri app with a map, characters, a weighted fortune wheel for conflict resolution, a timer, and a leaderboard.",
+  "description": "Desktop tool for facilitating live-action roleplay teambuilding sessions: a two-window Tauri app with a map, characters, a weighted fortune wheel for conflict resolution, a timer, and a leaderboard.",
   "author": "Stefano Costa",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/St-Costa/Teambuilding-tools.git"
+    "url": "https://github.com/St-Costa/Storycast.git"
   },
   "type": "module",
   "scripts": {

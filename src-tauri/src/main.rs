@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    gdr_teambuilding_tool_lib::run()
+    storycast_lib::run()
 }

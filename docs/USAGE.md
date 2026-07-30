@@ -1,6 +1,6 @@
 # Facilitator usage guide
 
-How to run a live session with the GDR Teambuilding Tool, from first launch to closing the game.
+How to run a live session with Storycast, from first launch to closing the game.
 
 ---
 

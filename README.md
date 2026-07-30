@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/icon.png" alt="GDR Teambuilding Tool" width="160">
+  <img src="assets/icon.png" alt="Storycast" width="160">
 </p>
 
-<h1 align="center">GDR Teambuilding Tool</h1>
+<h1 align="center">Storycast</h1>
 
 <p align="center">
   <em>A live-action roleplay engine for corporate teambuilding sessions, run from a laptop and a projector.</em><br>
@@ -13,7 +13,7 @@
   <img alt="React" src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white">
   <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white">
   <img alt="Rust" src="https://img.shields.io/badge/Rust-stable-000000?logo=rust&logoColor=white">
-  <a href="https://github.com/St-Costa/Teambuilding-tools/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/St-Costa/Teambuilding-tools/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://github.com/St-Costa/Storycast/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/St-Costa/Storycast/actions/workflows/ci.yml/badge.svg"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue"></a>
 </p>
 
