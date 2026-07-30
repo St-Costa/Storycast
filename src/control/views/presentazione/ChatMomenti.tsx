@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { useMemeStore } from "../../state/memeStore";
+import { useMemeStore } from "../../../state/memeStore";
 import styles from "./ChatMomenti.module.css";
 
 // Chat dei "momenti meme": vive sulla mappa in regia (mai in proiezione),

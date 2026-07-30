@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { open } from "@tauri-apps/plugin-dialog";
-import { useAmbientazioneStore } from "../../state/ambientazioneStore";
-import { usePresentazioneStore } from "../../state/presentazioneStore";
-import { useConflittoStore } from "../../state/conflittoStore";
-import { useLeaderboardStore } from "../../state/leaderboardStore";
-import { IconaPresentazione } from "../../components/Icone";
-import Presentazione from "../../components/Presentazione";
+import { useAmbientazioneStore } from "../../../state/ambientazioneStore";
+import { usePresentazioneStore } from "../../../state/presentazioneStore";
+import { useConflittoStore } from "../../../state/conflittoStore";
+import { useLeaderboardStore } from "../../../state/leaderboardStore";
+import { IconaPresentazione } from "../../../components/Icone";
+import Presentazione from "../../../components/Presentazione";
 import styles from "./PannelloPresentazione.module.css";
-import toolbar from "./AmbientazioneAperta.module.css";
+import toolbar from "../scenario/AmbientazioneAperta.module.css";
 
 interface Props {
   numeroBadge?: number;

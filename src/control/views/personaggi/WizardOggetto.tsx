@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { open } from "@tauri-apps/plugin-dialog";
 import { convertFileSrc } from "@tauri-apps/api/core";
-import { cropIniziale, validaNomeOggetto, type Crop, type Oggetto } from "../../lib/ambientazione";
-import { cropDiPartenzaDaImmagine } from "../../lib/immagine";
-import MaschereCircolare from "../components/MaschereCircolare";
+import { cropIniziale, validaNomeOggetto, type Crop, type Oggetto } from "../../../lib/ambientazione";
+import { cropDiPartenzaDaImmagine } from "../../../lib/immagine";
+import MaschereCircolare from "../../components/MaschereCircolare";
 import styles from "./WizardOggetto.module.css";
 
 interface Props {

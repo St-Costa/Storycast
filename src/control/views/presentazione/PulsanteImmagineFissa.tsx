@@ -1,6 +1,6 @@
 import { open } from "@tauri-apps/plugin-dialog";
-import { eseguiSalvataggio, useAmbientazioneStore } from "../../state/ambientazioneStore";
-import styles from "./PulsanteSottofondo.module.css";
+import { eseguiSalvataggio, useAmbientazioneStore } from "../../../state/ambientazioneStore";
+import styles from "../soundboard/PulsanteSottofondo.module.css";
 
 export default function PulsanteImmagineFissa() {
   const current = useAmbientazioneStore((s) => s.current);

@@ -1,9 +1,9 @@
-import { useAmbientazioneStore } from "../../state/ambientazioneStore";
-import { useVotiStore } from "../../state/votiStore";
-import { useLeaderboardStore } from "../../state/leaderboardStore";
-import { risolviAsset } from "../../lib/storage";
-import Cerchietto from "../../components/Cerchietto";
-import { IconaManette } from "../../components/Icone";
+import { useAmbientazioneStore } from "../../../state/ambientazioneStore";
+import { useVotiStore } from "../../../state/votiStore";
+import { useLeaderboardStore } from "../../../state/leaderboardStore";
+import { risolviAsset } from "../../../lib/storage";
+import Cerchietto from "../../../components/Cerchietto";
+import { IconaManette } from "../../../components/Icone";
 import styles from "./PannelloVoti.module.css";
 
 interface Props {

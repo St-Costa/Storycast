@@ -1,7 +1,7 @@
 import { useRef } from "react";
-import { useAmbientazioneStore } from "../../state/ambientazioneStore";
-import { EMOJI_ANNOTAZIONI } from "../../lib/scena";
-import { IconaImmagine, IconaTesto } from "../../components/Icone";
+import { useAmbientazioneStore } from "../../../state/ambientazioneStore";
+import { EMOJI_ANNOTAZIONI } from "../../../lib/scena";
+import { IconaImmagine, IconaTesto } from "../../../components/Icone";
 import styles from "./PannelloAnnotazioni.module.css";
 
 export default function PannelloAnnotazioni() {

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { formatMmSs, remainingMs, useTimerStore } from "../../state/timerStore";
-import { forceEmitScena, useAmbientazioneStore } from "../../state/ambientazioneStore";
+import { formatMmSs, remainingMs, useTimerStore } from "../../../state/timerStore";
+import { forceEmitScena, useAmbientazioneStore } from "../../../state/ambientazioneStore";
 import {
   fermaCampanello,
   fermaSveglia,
@@ -15,9 +15,9 @@ import {
   fermaCountdownMusica,
   impostaVolumeCountdownMusica,
   VOLUME_COUNTDOWN_DEFAULT,
-} from "../../lib/audio";
-import { useSottofondoStore } from "../../lib/sottofondo";
-import { calcolaCountdownConMusica } from "../../lib/countdownMusica";
+} from "../../../lib/audio";
+import { useSottofondoStore } from "../../../lib/sottofondo";
+import { calcolaCountdownConMusica } from "../../../lib/countdownMusica";
 import styles from "./PannelloTimer.module.css";
 
 const TICK_MS = 200;

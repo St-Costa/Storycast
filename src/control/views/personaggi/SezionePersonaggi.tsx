@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { useAmbientazioneStore } from "../../state/ambientazioneStore";
-import { risolviAsset } from "../../lib/storage";
-import { PALETTE, nomeColore } from "../../lib/colori";
-import { validaNomePersonaggio, type Personaggio } from "../../lib/ambientazione";
-import Cerchietto from "../../components/Cerchietto";
-import Quadratino from "../../components/Quadratino";
+import { useAmbientazioneStore } from "../../../state/ambientazioneStore";
+import { risolviAsset } from "../../../lib/storage";
+import { PALETTE, nomeColore } from "../../../lib/colori";
+import { validaNomePersonaggio, type Personaggio } from "../../../lib/ambientazione";
+import Cerchietto from "../../../components/Cerchietto";
+import Quadratino from "../../../components/Quadratino";
 import EditorRitaglio from "./EditorRitaglio";
 import styles from "./PannelloPersonaggi.module.css";
 

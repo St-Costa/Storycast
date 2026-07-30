@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { open } from "@tauri-apps/plugin-dialog";
 import { convertFileSrc } from "@tauri-apps/api/core";
-import { cropIniziale, type Crop } from "../../lib/ambientazione";
-import { cropDiPartenzaDaImmagine } from "../../lib/immagine";
-import MaschereCircolare from "../components/MaschereCircolare";
-import styles from "./WizardPersonaggio.module.css";
+import { cropIniziale, type Crop } from "../../../lib/ambientazione";
+import { cropDiPartenzaDaImmagine } from "../../../lib/immagine";
+import MaschereCircolare from "../../components/MaschereCircolare";
+import styles from "../personaggi/WizardPersonaggio.module.css";
 
 interface Props {
   onAnnulla: () => void;

@@ -1,26 +1,26 @@
 import { useEffect, useState } from "react";
 import { open } from "@tauri-apps/plugin-dialog";
 import { invoke } from "@tauri-apps/api/core";
-import { useAmbientazioneStore } from "../../state/ambientazioneStore";
+import { useAmbientazioneStore } from "../../../state/ambientazioneStore";
 import {
   aggiungiRecente,
   listaRecenti,
   rimuoviRecente,
   type RecentEntryConStato,
-} from "../../lib/recents";
+} from "../../../lib/recents";
 import {
   validaNome,
   AmbientazioneCorrotta,
   CartellaNonValida,
   IOError,
-} from "../../lib/ambientazione";
+} from "../../../lib/ambientazione";
 import { exists } from "@tauri-apps/plugin-fs";
 import {
   apriAmbientazione,
   autorizzaCartella,
   eliminaAmbientazione,
   risolviAsset,
-} from "../../lib/storage";
+} from "../../../lib/storage";
 import styles from "./SelezioneAmbientazione.module.css";
 
 interface InstallResult {

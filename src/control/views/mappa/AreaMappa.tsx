@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { useAmbientazioneStore } from "../../state/ambientazioneStore";
-import { risolviAsset } from "../../lib/storage";
+import { useAmbientazioneStore } from "../../../state/ambientazioneStore";
+import { risolviAsset } from "../../../lib/storage";
 import {
   clamp01,
   dimensioneCerchietto,
@@ -8,12 +8,12 @@ import {
   RAPPORTO_QUADRATINO,
   RIENTRO_QUADRATINO,
   rettangoloContain,
-} from "../../lib/scena";
-import Cerchietto from "../../components/Cerchietto";
-import Quadratino from "../../components/Quadratino";
-import AnnotazioneView from "../../components/Annotazione";
-import ChatMomenti from "./ChatMomenti";
-import { oggettoDi } from "../../lib/ambientazione";
+} from "../../../lib/scena";
+import Cerchietto from "../../../components/Cerchietto";
+import Quadratino from "../../../components/Quadratino";
+import AnnotazioneView from "../../../components/Annotazione";
+import ChatMomenti from "../presentazione/ChatMomenti";
+import { oggettoDi } from "../../../lib/ambientazione";
 import styles from "./AreaMappa.module.css";
 
 export default function AreaMappa() {

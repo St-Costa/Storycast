@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { open } from "@tauri-apps/plugin-dialog";
-import { eseguiSalvataggio, useAmbientazioneStore } from "../../state/ambientazioneStore";
-import { resetSottofondoCache, useSottofondoStore } from "../../lib/sottofondo";
+import { eseguiSalvataggio, useAmbientazioneStore } from "../../../state/ambientazioneStore";
+import { resetSottofondoCache, useSottofondoStore } from "../../../lib/sottofondo";
 import styles from "./PulsanteSottofondo.module.css";
 
 export default function PulsanteSottofondo() {

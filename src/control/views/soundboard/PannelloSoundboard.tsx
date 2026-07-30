@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
-import { eseguiSalvataggio, useAmbientazioneStore } from "../../state/ambientazioneStore";
-import { joinPath } from "../../lib/path";
-import EmojiPicker from "../../components/EmojiPicker";
-import { IconaVolume } from "../../components/Icone";
+import { eseguiSalvataggio, useAmbientazioneStore } from "../../../state/ambientazioneStore";
+import { joinPath } from "../../../lib/path";
+import EmojiPicker from "../../../components/EmojiPicker";
+import { IconaVolume } from "../../../components/Icone";
 import styles from "./PannelloSoundboard.module.css";
 
 export default function PannelloSoundboard() {

@@ -6,10 +6,10 @@ import {
   validaNomePersonaggio,
   type Crop,
   type Personaggio,
-} from "../../lib/ambientazione";
-import { cropDiPartenzaDaImmagine } from "../../lib/immagine";
-import { PALETTE, nomeColore, primoColoreLibero } from "../../lib/colori";
-import MaschereCircolare from "../components/MaschereCircolare";
+} from "../../../lib/ambientazione";
+import { cropDiPartenzaDaImmagine } from "../../../lib/immagine";
+import { PALETTE, nomeColore, primoColoreLibero } from "../../../lib/colori";
+import MaschereCircolare from "../../components/MaschereCircolare";
 import styles from "./WizardPersonaggio.module.css";
 
 interface Props {

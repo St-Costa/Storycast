@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { open } from "@tauri-apps/plugin-dialog";
-import { eseguiSalvataggio, useAmbientazioneStore } from "../../state/ambientazioneStore";
-import { useVotiStore } from "../../state/votiStore";
-import { IconaVoto } from "../../components/Icone";
-import Cerchietto from "../../components/Cerchietto";
-import { risolviAsset } from "../../lib/storage";
-import EditorRitaglio from "./EditorRitaglio";
+import { eseguiSalvataggio, useAmbientazioneStore } from "../../../state/ambientazioneStore";
+import { useVotiStore } from "../../../state/votiStore";
+import { IconaVoto } from "../../../components/Icone";
+import Cerchietto from "../../../components/Cerchietto";
+import { risolviAsset } from "../../../lib/storage";
+import EditorRitaglio from "../personaggi/EditorRitaglio";
 import WizardVotante from "./WizardVotante";
 import styles from "./PulsanteVoti.module.css";
 import stylesConfig from "./PulsanteVotiConfig.module.css";

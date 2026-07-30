@@ -1,7 +1,7 @@
 import { useState } from "react";
-import type { Crop } from "../../lib/ambientazione";
-import { risolviAsset } from "../../lib/storage";
-import MaschereCircolare from "../components/MaschereCircolare";
+import type { Crop } from "../../../lib/ambientazione";
+import { risolviAsset } from "../../../lib/storage";
+import MaschereCircolare from "../../components/MaschereCircolare";
 import styles from "./EditorRitaglio.module.css";
 
 interface Props {

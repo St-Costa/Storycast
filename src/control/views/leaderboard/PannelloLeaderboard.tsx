@@ -1,11 +1,11 @@
-import { useAmbientazioneStore } from "../../state/ambientazioneStore";
-import { useLeaderboardStore } from "../../state/leaderboardStore";
-import { useVittoriaStore } from "../../state/vittoriaStore";
-import { useMemeStore } from "../../state/memeStore";
-import { risolviAsset } from "../../lib/storage";
-import Cerchietto from "../../components/Cerchietto";
-import ClassificaPodio from "../../components/ClassificaPodio";
-import type { RigaLeaderboardSnap } from "../../lib/events";
+import { useAmbientazioneStore } from "../../../state/ambientazioneStore";
+import { useLeaderboardStore } from "../../../state/leaderboardStore";
+import { useVittoriaStore } from "../../../state/vittoriaStore";
+import { useMemeStore } from "../../../state/memeStore";
+import { risolviAsset } from "../../../lib/storage";
+import Cerchietto from "../../../components/Cerchietto";
+import ClassificaPodio from "../../../components/ClassificaPodio";
+import type { RigaLeaderboardSnap } from "../../../lib/events";
 import styles from "./PannelloLeaderboard.module.css";
 
 interface Props {

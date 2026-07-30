@@ -6,8 +6,8 @@ import { useAutosave } from "../state/useAutosave";
 import { aggiungiRecente, listaRecenti } from "../lib/recents";
 import { apriAmbientazione, autorizzaCartella } from "../lib/storage";
 import { joinPath } from "../lib/path";
-import SelezioneAmbientazione from "./views/SelezioneAmbientazione";
-import AmbientazioneAperta from "./views/AmbientazioneAperta";
+import SelezioneAmbientazione from "./views/scenario/SelezioneAmbientazione";
+import AmbientazioneAperta from "./views/scenario/AmbientazioneAperta";
 
 interface InstallResult {
   nome: string;

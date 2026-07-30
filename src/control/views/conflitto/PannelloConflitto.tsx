@@ -1,16 +1,16 @@
 import { useMemo, useState } from "react";
-import { useAmbientazioneStore } from "../../state/ambientazioneStore";
+import { useAmbientazioneStore } from "../../../state/ambientazioneStore";
 import {
   useConflittoStore,
   type Fonte,
   type PartecipanteConflitto,
-} from "../../state/conflittoStore";
-import { calcolaFette, type Modificatore } from "../../lib/ruota";
-import { risolviAsset } from "../../lib/storage";
-import type { ConflittoSnapshot, FonteSnap, PartecipanteSnap } from "../../lib/events";
-import Cerchietto from "../../components/Cerchietto";
-import Quadratino from "../../components/Quadratino";
-import Ruota from "../../components/Ruota";
+} from "../../../state/conflittoStore";
+import { calcolaFette, type Modificatore } from "../../../lib/ruota";
+import { risolviAsset } from "../../../lib/storage";
+import type { ConflittoSnapshot, FonteSnap, PartecipanteSnap } from "../../../lib/events";
+import Cerchietto from "../../../components/Cerchietto";
+import Quadratino from "../../../components/Quadratino";
+import Ruota from "../../../components/Ruota";
 import styles from "./PannelloConflitto.module.css";
 
 type Step = "partecipanti" | "modificatori" | "spin";
@@ -330,9 +330,9 @@ function FilaModificatore({
   setMod,
 }: {
   partecipante: PartecipanteConflitto;
-  personaggio: import("../../lib/ambientazione").Personaggio;
+  personaggio: import("../../../lib/ambientazione").Personaggio;
   folderPath: string;
-  oggettoAttaccato: import("../../lib/ambientazione").Oggetto | null;
+  oggettoAttaccato: import("../../../lib/ambientazione").Oggetto | null;
   setMod: (mod: Modificatore, fonte: Fonte | null) => void;
 }) {
   const mod = partecipante.modificatore;

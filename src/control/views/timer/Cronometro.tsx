@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { useCronometroStore } from "../../state/cronometroStore";
-import { formatElapsed } from "../../state/timerStore";
+import { useCronometroStore } from "../../../state/cronometroStore";
+import { formatElapsed } from "../../../state/timerStore";
 import styles from "./Cronometro.module.css";
 
 /**
