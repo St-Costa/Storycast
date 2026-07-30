@@ -245,7 +245,8 @@ function validaOggetto(raw: unknown, idx: number): Oggetto {
     id: raw.id,
     nome: raw.nome,
     imgPath: raw.imgPath,
-    thumbPath: typeof raw.thumbPath === "string" && raw.thumbPath !== "" ? raw.thumbPath : undefined,
+    thumbPath:
+      typeof raw.thumbPath === "string" && raw.thumbPath !== "" ? raw.thumbPath : undefined,
     crop: validaCrop(raw.crop, ctx),
   };
 }

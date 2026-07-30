@@ -117,28 +117,28 @@ export default function PannelloGioco() {
                         </button>
                       )}
                       <div className={styles.popoverGriglia}>
-                      {oggetti.map((o) => {
-                        const assegnatoA = current!.personaggi.find(
-                          (x) => x.id !== p.id && x.oggettoId === o.id,
-                        );
-                        const scelto = o.id === p.oggettoId;
-                        return (
-                          <button
-                            key={o.id}
-                            type="button"
-                            className={`${styles.popoverItem} ${styles.popoverItemGriglia} ${scelto ? styles.popoverItemScelto : ""}`}
-                            onClick={() => handleAssegna(p.id, o.id)}
-                            title={assegnatoA ? `Attualmente di ${assegnatoA.nome}` : o.nome}
-                          >
-                            <Quadratino
-                              src={risolviAsset(folderPath, o.thumbPath ?? o.imgPath)}
-                              crop={o.crop}
-                              dimensione={83}
-                              alt={o.nome}
-                            />
-                          </button>
-                        );
-                      })}
+                        {oggetti.map((o) => {
+                          const assegnatoA = current!.personaggi.find(
+                            (x) => x.id !== p.id && x.oggettoId === o.id,
+                          );
+                          const scelto = o.id === p.oggettoId;
+                          return (
+                            <button
+                              key={o.id}
+                              type="button"
+                              className={`${styles.popoverItem} ${styles.popoverItemGriglia} ${scelto ? styles.popoverItemScelto : ""}`}
+                              onClick={() => handleAssegna(p.id, o.id)}
+                              title={assegnatoA ? `Attualmente di ${assegnatoA.nome}` : o.nome}
+                            >
+                              <Quadratino
+                                src={risolviAsset(folderPath, o.thumbPath ?? o.imgPath)}
+                                crop={o.crop}
+                                dimensione={83}
+                                alt={o.nome}
+                              />
+                            </button>
+                          );
+                        })}
                       </div>
                     </>
                   )}

@@ -264,7 +264,10 @@ export default function ScenaVoti({ snapshot, folderPath, sfondoSrc }: Props) {
 
               <div className={styles.npcTarget}>
                 <Cerchietto
-                  src={risolviAsset(folderPath, npcRiga.target.facciaPath ?? npcRiga.target.imgPath)}
+                  src={risolviAsset(
+                    folderPath,
+                    npcRiga.target.facciaPath ?? npcRiga.target.imgPath,
+                  )}
                   formatoSrc={npcRiga.target.imgPath}
                   colore={npcRiga.target.colore}
                   crop={npcRiga.target.crop}

@@ -141,7 +141,8 @@ export default function PannelloVoti({ onChiudi }: Props) {
                           return <div key={v.personaggioId} className={styles.cellVuota} />;
                         }
                         const acceso = votantiTarget.includes(v.personaggioId);
-                        const isVotanteExtra = votante !== null && v.personaggioId === votante.personaggioId;
+                        const isVotanteExtra =
+                          votante !== null && v.personaggioId === votante.personaggioId;
                         return (
                           <button
                             key={v.personaggioId}

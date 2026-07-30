@@ -164,10 +164,7 @@ export async function generaMiniatura(
 // cerchietti su mappa/ruota/leaderboard ma ~16x più leggera da decodificare
 // dell'originale (spesso ~2000px / vari MB). Salvata come "<base>_faccia.png".
 const LATO_FACCIA = 512;
-export async function generaFaccia(
-  folderPath: string,
-  imgRelativePath: string,
-): Promise<string> {
+export async function generaFaccia(folderPath: string, imgRelativePath: string): Promise<string> {
   return generaMiniatura(folderPath, imgRelativePath, {
     max: LATO_FACCIA,
     suffisso: "_faccia",
