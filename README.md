@@ -1,186 +1,78 @@
-# GDR Teambuilding Tool
+<p align="center">
+  <img src="assets/icon.png" alt="GDR Teambuilding Tool" width="160">
+</p>
 
-Strumento desktop per condurre **dal vivo** sessioni di gioco di ruolo (GDR) semplificato in contesti di **teambuilding aziendale**.
+<h1 align="center">GDR Teambuilding Tool</h1>
 
-Il conduttore ("regista") usa un laptop collegato a un proiettore: su una finestra (la **Regia**) ha tutti i controlli; sull'altra (la **Proiezione**, a tutto schermo sul proiettore) il pubblico vede solo la mappa con i personaggi, la ruota della fortuna o la classifica finale.
+<p align="center">
+  <em>A live-action roleplay engine for corporate teambuilding sessions, run from a laptop and a projector.</em><br>
+</p>
 
-> L'app è pensata per essere usata da una **persona non tecnica**: interfaccia tutta in italiano, autoesplicativa e tollerante agli errori.
-
----
-
-## Funzionalità
-
-- **Scenari (ambientazioni)** — ogni scenario è una cartella autoconsistente su disco (mappa + personaggi + oggetti + posizioni + impostazioni). Si può copiare su una USB e riaprire altrove senza file mancanti. Schermata iniziale con scenari recenti, "Nuovo" e scenari pre-installati.
-- **Due modalità di apertura**:
-  - **Modifica scenario** (*edit*) — si costruisce/aggiorna lo scenario; le modifiche vengono salvate (autosave).
-  - **Conduci sessione** (*play*) — **gioco effimero**: spostamenti, oggetti e annotazioni fatti dal vivo NON vengono salvati. Riaprendo, lo scenario torna sempre al setup.
-- **Mappa + personaggi** — sfondo a immagine; personaggi come cerchietti con la faccia ritagliata (pan/zoom manuale dentro una maschera circolare), bordo del colore del personaggio, drag & drop libero. Posizioni normalizzate, sincronizzate in tempo reale sulla proiezione.
-- **Personaggi NPC** — bordo tratteggiato, esclusi dalla classifica ma selezionabili nei conflitti.
-- **Oggetti** — quadratini con angoli arrotondati, assegnabili 1-a-1 a un personaggio (compaiono attaccati al cerchietto). Possono fare da modificatore nella ruota.
-- **Ruota della fortuna** — risolve i conflitti al posto dei dadi: fette pesate per personaggio, modificatori `+1`/`+2` (da oggetto o da descrizione testuale), animazione con decelerazione naturale, estrazione coerente con le probabilità, scoreboard e vincitore evidenziato. Tick audio nativo in sync con la freccia.
-- **Timer** — countdown mostrato sulla proiezione, gestito dalla regia. Suoni: "Via!" all'avvio, avviso a 1 minuto, allarme intermittente allo scadere.
-- **Leaderboard finale** — 3 obiettivi (i primi due sommano, il terzo è un **malus** −1), tabella + podio con corona e alone dorato per i vincitori (anche in parità).
-- **Annotazioni sulla mappa** — simboli emoji (🚫 ⛔ ⚠️ 🔥 …) ed etichette di testo, posizionabili e ridimensionabili. Disponibili anche dal vivo.
-- **Soundboard + sottofondo** — pulsanti audio rapidi e musica di sottofondo (file caricati dall'utente).
-- **Animazione di vittoria/premiazione** a tutto schermo con audio.
-- **Fullscreen proiezione** — pulsante in regia per mettere a tutto schermo la finestra trascinata sul secondo monitor; ESC per uscire. Il cursore sparisce dopo qualche secondo di inattività.
-
-> **Audio**: la spec originale escludeva l'audio, ma su richiesta del committente sono stati aggiunti effetti sonori (tick ruota, timer, soundboard, sottofondo, vittoria). Il volume è quello del mixer del sistema operativo — l'app non fa routing né selezione del dispositivo di uscita.
+<p align="center">
+  <img alt="Tauri" src="https://img.shields.io/badge/Tauri-v2-24C8DB?logo=tauri&logoColor=white">
+  <img alt="React" src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white">
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white">
+  <img alt="Rust" src="https://img.shields.io/badge/Rust-stable-000000?logo=rust&logoColor=white">
+  <a href="https://github.com/St-Costa/Teambuilding-tools/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/St-Costa/Teambuilding-tools/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-blue"></a>
+</p>
 
 ---
 
-## Stack tecnologico
+## Why this exists
 
-- **[Tauri v2](https://tauri.app/)** — app desktop cross-platform (Ubuntu, Windows, macOS). Usa la WebView del sistema, non impacchetta un browser → binario leggero.
-- **React 19 + TypeScript + [Vite](https://vitejs.dev/)** — frontend, build multi-page (una entry HTML per finestra).
-- **[Zustand](https://zustand-demo.pmnd.rs/)** — stato condiviso (source of truth nella Regia).
-- **CSS Modules** — styling (niente Tailwind).
-- **Backend Rust** — core Tauri + `rodio` per i tick audio nativi della ruota (bassa latenza costante).
-- Plugin Tauri: **`fs`** (lettura/scrittura cartelle scenario) e **`dialog`** (selettori file/cartella nativi).
+This was built while testing a business idea: a teambuilding game format pitched to companies, where groups of participants each play a character in a live, facilitator-run story (a room-scale scene where people move, interact with objects, and face in-fiction conflicts together). Live sessions needed a way to run that fiction in front of a room without a facilitator needing to touch a terminal or a config file mid-session.
 
-### Architettura a due finestre
+The result is a two-window desktop app: a **Control** window for the facilitator (laptop) and a **Stage** window for the audience (projector). Everything the facilitator does updates the projection live, in real time.
 
-Due finestre Tauri distinte, ognuna con il proprio entry HTML:
+> Built for a **non-technical end user**: the in-app UI is entirely in Italian (the facilitator's language), self-explanatory, and forgiving of mistakes.
 
-| Finestra | Label | Entry | Contenuto |
-|----------|-------|-------|-----------|
-| **Regia** | `control` | `control.html` | Tutti i controlli (caricamento asset, movimento personaggi, ruota, timer, leaderboard…) |
-| **Proiezione** | `stage` | `stage.html` | Sola lettura: mappa + personaggi, oppure ruota / leaderboard / vittoria quando attive |
-
-La Regia è la **source of truth**. A ogni modifica emette un evento (`emit`) che la Proiezione riceve (`listen`) e riflette in sola lettura — via **sistema di eventi nativo Tauri** (non `BroadcastChannel`, inaffidabile tra WebView separate). Gli aggiornamenti di scena sono throttled con `requestAnimationFrame` per un drag fluido senza inondare il bus eventi.
+<p align="center">
+  <img src="docs/screenshots/stage-map.png" alt="Stage view: projected map with character portraits and attached objects" width="720">
+  <br>
+  <em>The Stage projection during a live session: the map, with character portraits and their attached objects.</em>
+</p>
 
 ---
 
-## Struttura del progetto
+## Features
 
-```
-src/
-  control/          # UI Regia (App, viste, wizard, pannelli)
-    views/          #   pannelli: personaggi, oggetti, conflitto, timer, leaderboard, soundboard, annotazioni…
-    components/     #   maschera circolare crop, indicatore salvataggio
-  stage/            # UI Proiezione (sola lettura)
-  components/        # componenti display condivisi: Cerchietto, Quadratino, Ruota, Annotazione, podio, animazione vittoria…
-  state/            # store Zustand: ambientazione, conflitto, timer, leaderboard, vittoria + hook autosave
-  lib/              # logica pura e utility: ruota-math, storage, eventi, scena, colori, audio, recents…
-  assets/suoni/     # beep timer (MP3 sintetizzati offline, versionati)
-src-tauri/          # core Rust, config finestre, capabilities, audio tick nativo
-scenari-bundled/    # scenari "factory" pre-installati nel bundle (es. "Treno deragliato")
-scripts/gen_suoni.py # rigenera i beep MP3 del timer
-docs/DECISIONS.md   # log decisioni architetturali e deviazioni dalla spec
-CLAUDE.md           # specifica autoriale del progetto
-```
+- **Scenarios**: self-contained folders (map, characters, objects, positions).
+- **Edit vs. Play**: build a scenario with autosave, then run it live in an ephemeral session.
+- **Map + characters**: drag-and-drop circular portraits with manual face crop, colored borders, synced live to the projection.
+- **Objects**: assignable to characters, can act as wheel modifiers.
+- **Fortune wheel**: resolves conflicts instead of dice: weighted slices, `+1`/`+2` modifiers, a natural decelerating spin, and a probability-consistent outcome.
+- **Timer, leaderboard, map annotations, soundboard**
 
-### Formato di uno scenario su disco
+<p align="center">
+  <img src="docs/screenshots/wheel-spin.gif" alt="Fortune wheel mid-spin, resolving a conflict between characters" width="500">
+  <br>
+  <em>The fortune wheel resolving a conflict.</em>
+</p>
 
-```
-NomeScenario/
-  ambientazione.json     # manifest: tutto lo stato serializzabile (schemaVersion 1)
-  mappa-<uuid>.<ext>     # immagine mappa
-  personaggi/<uuid>.<ext>
-  oggetti/<uuid>.<ext>
-  audio/                 # eventuali clip soundboard / sottofondo
-```
-
-Le immagini selezionate vengono **copiate** dentro la cartella dello scenario (non solo referenziate), così lo scenario resta autoconsistente. Le posizioni dei personaggi sono normalizzate `0..1` rispetto alla mappa.
+Full feature list in [`docs/USAGE.md`](docs/USAGE.md).
 
 ---
 
-## Prerequisiti
+## Two-window architecture
 
-- **Node.js** (≥ 20; testato su 24) e **npm**
-- **Rust** (toolchain stabile; testato su 1.95) → [rustup](https://rustup.rs/)
-- **Dipendenze di sistema Tauri v2** — vedi la [guida ufficiale](https://tauri.app/start/prerequisites/).
-  - **Ubuntu/Debian** servono in particolare WebKitGTK 4.1 e ALSA (per l'audio nativo):
-    ```bash
-    sudo apt install libwebkit2gtk-4.1-dev build-essential curl wget file \
-      libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev \
-      libasound2-dev
-    ```
-    > `libasound2-dev` (ALSA) è **necessario** per compilare `rodio` (tick ruota nativi).
-  - **Audio a runtime (Ubuntu/Debian)** — per la riproduzione dei suoni nel
-    webview (sottofondo, soundboard, beep del timer) servono i plugin GStreamer:
-    ```bash
-    sudo apt install gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-libav
-    ```
-    > **Importante:** senza `gstreamer1.0-plugins-bad` manca l'elemento
-    > `fakevideosink` che WebKitGTK usa per i media **solo-audio**. In quel caso,
-    > riprodurre **più suoni insieme** (es. soundboard + sottofondo) fa **crashare
-    > l'intera app** (il WebProcess di WebKit muore di colpo). `libav` serve a
-    > decodificare l'MP3. Sui pacchetti `.deb` prodotti da `tauri build` queste
-    > dipendenze sono già dichiarate e vengono installate in automatico.
+Two distinct Tauri windows, each with its own HTML entry point:
+
+| Window | Label | Content |
+|--------|-------|---------|
+| **Control** | `control` | All controls (asset loading, moving characters, wheel, timer, leaderboard…) |
+| **Stage** | `stage` | Read-only: map + characters, or wheel / leaderboard / victory screen when active |
+
 
 ---
 
-## Sviluppo
+## Documentation
 
-```bash
-# Installa le dipendenze frontend
-npm install
-
-# Avvia l'app in modalità sviluppo (apre Regia + Proiezione)
-npm run tauri dev
-```
-
-Altri script:
-
-```bash
-npm run dev       # solo frontend Vite (senza shell Tauri)
-npm run build     # type-check (tsc) + build frontend (vite)
-```
-
-### Qualità del codice
-
-```bash
-npm test           # test (Vitest) della logica pura: ruota, scena, validazione, timer
-npm run coverage   # come sopra, con report di copertura
-npm run lint       # ESLint (flat config TS/React)
-npm run format     # Prettier: riscrive i file formattati
-npm run format:check  # Prettier: solo controllo (usato in CI)
-```
-
-Per il backend Rust, dalla cartella `src-tauri/`:
-
-```bash
-cargo fmt --all                 # formatta
-cargo clippy --all-targets -- -D warnings   # lint
-cargo test                      # test Rust (se presenti)
-```
-
-Gli stessi controlli girano in **CI** (GitHub Actions, `.github/workflows/ci.yml`)
-su ogni push e PR verso `main`: lint, formattazione, type-check, test e build sia
-del frontend sia del backend Rust.
-
-### Build di produzione
-
-```bash
-npm run tauri build
-```
-
-Produce i pacchetti nativi in `src-tauri/target/release/bundle/` (formati a seconda della piattaforma: `.deb`/AppImage su Linux, `.msi`/`.exe` su Windows, `.dmg`/`.app` su macOS). Gli scenari in `scenari-bundled/` vengono inclusi come risorse del bundle.
-
-### Rigenerare i suoni del timer
-
-I beep del timer sono MP3 sintetizzati offline e versionati nel repo. Per rigenerarli serve `ffmpeg`:
-
-```bash
-python3 scripts/gen_suoni.py
-```
+- **[`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)** — prerequisites, running in dev, building, project structure, scenario file format.
+- **[`docs/USAGE.md`](docs/USAGE.md)** — how a facilitator runs a live session.
 
 ---
 
-## Note d'uso per il conduttore
+## A note on `scenari-bundled/`
 
-1. **All'avvio** scegli uno scenario recente / pre-installato oppure creane uno nuovo.
-2. Per **preparare** uno scenario apri in **Modifica scenario**: carica la mappa, crea i personaggi (ritaglio faccia, nome, colore), aggiungi oggetti, posiziona tutto e salva le posizioni iniziali. Tutto viene salvato in automatico (indicatore di salvataggio in toolbar).
-3. Per **giocare** apri in **Conduci sessione**: trascina la finestra Proiezione sul proiettore e premi *Proiezione a tutto schermo*. Da qui muovi i personaggi, assegna oggetti, lancia conflitti con la ruota, gestisci il timer e la leaderboard. **Nulla di ciò che fai dal vivo viene salvato**: alla riapertura lo scenario riparte dal setup.
-
----
-
-## Documentazione interna
-
-- **`CLAUDE.md`** — specifica autoriale completa (requisiti, vincoli, UX).
-- **`docs/DECISIONS.md`** — log datato delle decisioni architetturali, delle assunzioni e delle deviazioni dalla spec, milestone per milestone. È il punto di riferimento per capire *perché* le cose sono fatte così.
-
----
-
-*Progetto sviluppato con [Tauri](https://tauri.app/) + React + TypeScript.*
+The pre-installed demo scenarios (maps, character art, PDFs, audio) are committed directly to this repo rather than through [Git LFS](https://git-lfs.com/), which is the more scalable way to version large binary assets. At the time, this was a local prototype being tested live with real groups, and migrating to LFS wasn't worth the setup until the format proved out. It did, but the project wasn't carried further after that, so the migration was never done. 
