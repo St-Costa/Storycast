@@ -70,6 +70,7 @@ Two distinct Tauri windows, each with its own HTML entry point:
 
 - **[`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md)** — prerequisites, running in dev, building, project structure, scenario file format.
 - **[`docs/USAGE.md`](docs/USAGE.md)** — how a facilitator runs a live session.
+- **[`CHANGELOG.md`](CHANGELOG.md)** — condensed, milestone-by-milestone summary of what was built and when.
 
 ---
 
