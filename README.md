@@ -74,6 +74,21 @@ Two distinct Tauri windows, each with its own HTML entry point:
 
 ---
 
+## How the idea was tested, and why it was stopped
+
+| Step | What happened |
+|---|---|
+| Hypothesis | Corporate teambuilding feels repetitive; a facilitator-run roleplay could be a fresh format. Target: young teams of 15–20 people with HR open to experiments. |
+| Demand check | A decision-maker at one target company said they would buy it as soon as it was ready. |
+| Build | A rule-light investigative scenario (each character played by a group of 3–5 people) plus this app for map, objects and music. Scenarios are modular, so each new one is cheap to produce. |
+| Playtest 1 | 5 experienced roleplayers: worked very well. |
+| Playtest 2 | 15 non-gamers, the real target: the story worked, the format did not. Groups were too large to manage, and basic rules were ignored. |
+| Decision | The only fix was fewer players per session, which shrank the market below what made the business worth it. Stopped right after the second playtest. |
+
+The app did its job: it let us test a live format with real groups quickly, and the second test gave a clear enough answer to stop.
+
+---
+
 ## A note on `scenari-bundled/`
 
 The pre-installed demo scenarios (maps, character art, PDFs, audio) are committed directly to this repo rather than through [Git LFS](https://git-lfs.com/), which is the more scalable way to version large binary assets. At the time, this was a local prototype being tested live with real groups, and migrating to LFS wasn't worth the setup until the format proved out. It did, but the project wasn't carried further after that, so the migration was never done. 
